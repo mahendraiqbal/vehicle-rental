@@ -18,34 +18,3 @@ server.use(express.urlencoded({
 server.use(express.json());
 server.use(logger);
 server.use(mainRouter);
-
-// expressApp.method(endpoint, handler1, handler2, dst)
-server.get("/", (request, response) => {
-    response.redirect("welcome");
-});
-server.get("/welcome", (req, res) => {
-    res.status(303).json({
-        msg: "Habissss",
-    });
-});
-server.get(
-    "/getdata",
-    (req, res, next) => {
-        let isValid = true;
-        req.customValue = 1;
-        if (isValid) {
-            return next();
-        }
-        res.json({
-            msg: "nilai tidak valid",
-        });
-    },
-    (req, res) => {
-        const {
-            customValue
-        } = req;
-        res.json({
-            customValue,
-        });
-    }
-);
