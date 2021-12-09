@@ -55,18 +55,18 @@ const insertDataVehicles = (req, res) => {
 const deleteDataVehicles = (req, res) => {
     const {
         body: {
-            vehicle_id,
+            id,
         },
     } = req;
 
-    vehiclesModel.deleteDataUsers(vehicle_id)
+    vehiclesModel.deleteDataVehicles(id)
         .then(({
             status,
             result
         }) => {
             res.status(status).json({
                 result: {
-                    vehicle_id,
+                    msg: "Vehicles telah dihapus",
                     id: result.insertId,
                 }
             });
@@ -83,19 +83,16 @@ const deleteDataVehicles = (req, res) => {
 };
 
 const putDataVehicles = (req, res) => {
-    const {
-        body,
-    } = req;
-    vehiclesModel.putDataVehicles(body)
+    const { params, body } = req;
+    const vehicleId = params.id;
+    vehiclesModel.putDataVehicles(body, vehicleId)
         .then(({
             status,
-            result
         }) => {
             res.status(status).json({
                 msg: "Berhasil",
                 result: {
                     ...body,
-                    id: result.insertId,
                 },
             });
         })

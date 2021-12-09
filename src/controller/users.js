@@ -65,10 +65,8 @@ const deleteDataUsers = (req, res) => {
             result
         }) => {
             res.status(status).json({
-                result: {
-                    id,
-                    result
-                }
+                msg: "User Telah Dihapus",
+                id: result.insertId,
             });
         })
         .catch(({
@@ -106,7 +104,6 @@ const putDataUsers = (req, res) => {
             });
         });
 };
-
 
 const searchUserbyId = (req, res) => {
     // let id = parseInt(req.params.id);

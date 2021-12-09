@@ -12,7 +12,7 @@ transactionsRouter.post("/", transactionsController.insertDataTransactions);
 
 transactionsRouter.delete("/", transactionsController.deleteDataTransactions);
 
-transactionsRouter.put("/", transactionsController.putDataTransactions);
+transactionsRouter.put("/:id", transactionsController.putDataTransactions);
 
 transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
 

@@ -55,19 +55,17 @@ const insertDataTransactions = (req, res) => {
 const deleteDataTransactions = (req, res) => {
     const {
         body: {
-            transaction_id,
+            id,
         },
     } = req;
-    transactionsModel.deleteDataTransactions(transaction_id)
+    transactionsModel.deleteDataTransactions(id)
         .then(({
             status,
             result
         }) => {
             res.status(status).json({
-                result: {
-                    transaction_id,
-                    id: result.insertId,
-                }
+                msg: "Transaction Telah Dihapus",
+                id: result.insertId,
             });
         })
         .catch(({
@@ -82,19 +80,16 @@ const deleteDataTransactions = (req, res) => {
 };
 
 const putDataTransactions = (req, res) => {
-    const {
-        body
-    } = req;
-    transactionsModel.putDataTransactions(body)
+    const { params, body } = req;
+    const transactionId = params.id;
+    transactionsModel.putDataTransactions(body, transactionId)
         .then(({
             status,
-            result
         }) => {
             res.status(status).json({
                 msg: "Berhasil",
                 result: {
                     ...body,
-                    id: result.insertId,
                 },
             });
         })

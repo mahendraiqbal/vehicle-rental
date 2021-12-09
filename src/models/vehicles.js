@@ -32,9 +32,9 @@ const insertDataVehicles = (body) => {
     });
 };
 
-const deleteDataVehicles = (vehicle_id) => {
+const deleteDataVehicles = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `DELETE FROM vehicles WHERE vehicle_id = ${vehicle_id}`;
+        const sqlQuery = `DELETE FROM vehicles WHERE id = ${id}`;
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -48,9 +48,9 @@ const deleteDataVehicles = (vehicle_id) => {
     });
 };
 
-const putDataVehicles = (body) => {
+const putDataVehicles = (body, vehicleId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE vehicles SET ?`;
+        const sqlQuery = `UPDATE vehicles SET ? WHERE vehicles.id = ${vehicleId}`;
         db.query(sqlQuery, body, (err, result) => {
             if (err) return reject({
                 status: 500,

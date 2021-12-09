@@ -32,9 +32,9 @@ const insertDataTransactions = (body) => {
     });
 };
 
-const deleteDataTransactions = (transaction_id) => {
+const deleteDataTransactions = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `DELETE FROM transactions WHERE transaction_id = ${transaction_id}`;
+        const sqlQuery = `DELETE FROM transactions WHERE id = ${id}`;
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -48,9 +48,9 @@ const deleteDataTransactions = (transaction_id) => {
     });
 };
 
-const putDataTransactions = (body) => {
+const putDataTransactions = (body, transactionId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE transactions SET ?`;
+        const sqlQuery = `UPDATE transactions SET ? WHERE transactions.id = ${transactionId}`;
         db.query(sqlQuery, body, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -66,12 +66,12 @@ const putDataTransactions = (body) => {
 
 const getPopularVehicle = () => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.brand
+        const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.name
 FROM transactions
-INNER JOIN vehicles ON transactions.vehicle_id = vehicles.vehicle_id
-GROUP BY vehicles.brand
+INNER JOIN vehicles ON transactions.vehicle_id = vehicles.id
+GROUP BY vehicles.name
 ORDER BY COUNT(transactions.vehicle_id) DESC
-LIMIT 1`;
+LIMIT 5`;
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({status: 500, err})
             resolve({status:200, result}) 

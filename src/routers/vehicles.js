@@ -11,7 +11,7 @@ vehiclesRouter.post("/", vehiclesController.insertDataVehicles);
 
 vehiclesRouter.delete("/", vehiclesController.deleteDataVehicles);
 
-vehiclesRouter.put("/", vehiclesController.putDataVehicles);
+vehiclesRouter.put("/:id", vehiclesController.putDataVehicles);
 
 vehiclesRouter.get("/sortingbyprice", vehiclesController.sortByPriceVehicle);
 
