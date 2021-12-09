@@ -18,7 +18,7 @@ const getDataUsers = () => {
 
 const insertDataUsers = (body) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `INSERT INTO users SET ?`;
+        const sqlQuery = `INSERT INTO users SET ? `;
         db.query(sqlQuery, body, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -32,9 +32,9 @@ const insertDataUsers = (body) => {
     });
 };
 
-const deleteDataUsers = (id_user) => {
+const deleteDataUsers = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `DELETE FROM users WHERE id_user = ${id_user}`;
+        const sqlQuery = `DELETE FROM users WHERE id = ${id}`;
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -48,9 +48,9 @@ const deleteDataUsers = (id_user) => {
     });
 };
 
-const putDataUsers = (body) => {
+const putDataUsers = (body, usersId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE users SET ?`;
+        const sqlQuery = `UPDATE users SET ? WHERE users.id = ${usersId}`;
         db.query(sqlQuery, body, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -64,23 +64,25 @@ const putDataUsers = (body) => {
     });
 };
 
-const patchDataUsers = (name, email, password, address, gender, birth_of_date, id_user) => {
+const searchUserById = (usersId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE users SET name = '${name}', email = '${email}', password = '${password}', address = '${address}', gender = '${gender}', birth_of_date = '${birth_of_date}' WHERE id_user = ${id_user}`;
-        db.query(sqlQuery, (err, result) => {
-            if (err) return reject({ status: 500, err});
-            resolve({ status: 200, result});
+        const user = `SELECT id, name, email, contact
+        FROM users  
+        WHERE users.id = ${usersId}`;
+        db.query(user, (err, result) => {
+            if (err) return reject({
+                status: 500,
+                err
+            });
+            if (result.length == 0) return resolve({
+                status: 404,
+                result
+            });
+            resolve({
+                status: 200,
+                result
+            });
         });
-    });
-};
-
-const searchUserById = (id_user) => {
-    return new Promise((resolve, reject) => {
-        const user = `SELECT * FROM users WHERE id_user = ${id_user}`;
-    db.query(user, (err, result) => {
-        if (err) return reject({ status: 500, err })
-        resolve({ status: 200, result });
-    });
     });
 };
 
@@ -89,6 +91,5 @@ module.exports = {
     insertDataUsers,
     deleteDataUsers,
     putDataUsers,
-    patchDataUsers,
     searchUserById,
 }

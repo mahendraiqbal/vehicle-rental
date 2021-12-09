@@ -13,10 +13,8 @@ usersRouter.post("/", usersController.insertDataUsers);
 
 usersRouter.delete("/", usersController.deleteDataUsers);
 
-usersRouter.put("/", usersController.putDataUsers);
+usersRouter.put("/:id", usersController.putDataUsers);
 
-usersRouter.patch("/", usersController.patchDataUsers);
-
-usersRouter.get("/p", usersController.searchUserbyId);
+usersRouter.get("/:id", usersController.searchUserbyId);
 
 module.exports = usersRouter;

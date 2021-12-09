@@ -110,7 +110,7 @@ const putDataTransactions = (req, res) => {
 };
 
 const getPopularVehicle = (req, res) => {
-    transactionsModel.getPopularVehicle
+    transactionsModel.getPopularVehicle()
     .then(({status, result}) => {
         res.status(status).json({
                 msg: "Berhasil",

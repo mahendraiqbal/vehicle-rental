@@ -55,19 +55,19 @@ const insertDataUsers = (req, res) => {
 const deleteDataUsers = (req, res) => {
     const {
         body: {
-            id_user,
+            id,
         },
     } = req;
 
-    usersModel.deleteDataUsers(id_user)
+    usersModel.deleteDataUsers(id)
         .then(({
             status,
             result
         }) => {
             res.status(status).json({
                 result: {
-                    id_user,
-                    id: result.insertId,
+                    id,
+                    result
                 }
             });
         })
@@ -83,19 +83,16 @@ const deleteDataUsers = (req, res) => {
 };
 
 const putDataUsers = (req, res) => {
-    const {
-        body
-    } = req;
-    usersModel.putDataUsers(body)
+    const { params, body } = req;
+    const usersId = params.id;
+    usersModel.putDataUsers(body, usersId)
         .then(({
             status,
-            result
         }) => {
             res.status(status).json({
                 msg: "Berhasil",
                 result: {
                     ...body,
-                    id: result.insertId,
                 },
             });
         })
@@ -110,62 +107,18 @@ const putDataUsers = (req, res) => {
         });
 };
 
-const patchDataUsers = (req, res) => {
-    const {
-        body: {
-            id_user,
-            name,
-            email,
-            password,
-            address,
-            gender,
-            birth_of_date,
-        },
-    } = req;
-    usersModel.putDataUsers(name, email, password, address, gender, birth_of_date, id_user)
-        .then(({
-            status,
-            result
-        }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result: {
-                    name,
-                    email,
-                    password,
-                    address,
-                    gender,
-                    birth_of_date,
-                    id: result.insertId,
-                },
-            });
-        })
-        .catch(({
-            status,
-            err
-        }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
-        });
-};
 
 const searchUserbyId = (req, res) => {
     // let id = parseInt(req.params.id);
-    const {
-        body: {
-            id_user,
-        }
-    } = req;
-    usersModel.searchUserById(id_user)
+    const { params } = req;
+    const usersId = params.id;
+    usersModel.searchUserById(usersId)
         .then(({
             status,
             result
         }) => {
-            res.status(status).json({
-                result,
-            });
+            if (status == 404)
+            return res.status(status).json({ msg: "User Tidak Ditemukan", result })
         })
         .catch(({
             status,
@@ -183,6 +136,5 @@ module.exports = {
     insertDataUsers,
     deleteDataUsers,
     putDataUsers,
-    patchDataUsers,
     searchUserbyId,
 };
