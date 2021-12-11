@@ -13,8 +13,6 @@ vehiclesRouter.delete("/", vehiclesController.deleteDataVehicles);
 
 vehiclesRouter.put("/:id", vehiclesController.putDataVehicles);
 
-vehiclesRouter.get("/sortingbyprice", vehiclesController.sortByPriceVehicle);
-
-vehiclesRouter.get("/search", vehiclesController.searchVehicleByBrandAndType);
+vehiclesRouter.get("/:id", vehiclesController.getByPriceVehicle);
 
 module.exports = vehiclesRouter;

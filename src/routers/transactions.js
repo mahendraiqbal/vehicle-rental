@@ -8,12 +8,14 @@ const transactionsRouter = express.Router();
 // Transactions Request
 transactionsRouter.get("/", transactionsController.getDataTransactions);
 
+transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
+
+transactionsRouter.get("/transaction", transactionsController.getUserFromTransaction);
+
 transactionsRouter.post("/", transactionsController.insertDataTransactions);
 
 transactionsRouter.delete("/", transactionsController.deleteDataTransactions);
 
 transactionsRouter.put("/:id", transactionsController.putDataTransactions);
-
-transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
 
 module.exports = transactionsRouter;

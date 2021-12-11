@@ -55,7 +55,7 @@ const putDataVehicles = (body, vehicleId) => {
             if (err) return reject({
                 status: 500,
                 err
-            });
+            })
             resolve({
                 status: 200,
                 result
@@ -64,9 +64,11 @@ const putDataVehicles = (body, vehicleId) => {
     });
 };
 
-const sortByPriceVehicle = () => {
+const getByPriceVehicle = (vehicleId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `SELECT * FROM vehicles ORDER BY price DESC`;
+        const sqlQuery = `SELECT brand, name, price
+        FROM vehicles 
+        WHERE vehicles.id = "${vehicleId}"`
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -80,25 +82,8 @@ const sortByPriceVehicle = () => {
     });
 };
 
-const searchVehicleByBrandAndType = (query) => {
-    return new Promise((resolve, reject) => {
-        let keyword = "%%";
-        if (query.brand) keyword = `%${query.brand}%`;
-        const selectQuery = `SELECT * FROM vehicles`;
-        const searchQuery = ` WHERE brand LIKE ?`;
-        const filterQuery = ` AND type = ?`;
-        const sqlQuery = selectQuery + searchQuery + filterQuery;
-        db.query(sqlQuery, [keyword, query.type], (err, result) => {
-            if (err) return reject({
-                status: 500,
-                err
-            })
-            resolve({
-                status: 200,
-                result
-            });
-        });
-    });
+const sortVehicle = () => {
+    
 };
 
 module.exports = {
@@ -106,6 +91,6 @@ module.exports = {
     insertDataVehicles,
     deleteDataVehicles,
     putDataVehicles,
-    sortByPriceVehicle,
-    searchVehicleByBrandAndType,
+    getByPriceVehicle,
+    sortVehicle,
 }

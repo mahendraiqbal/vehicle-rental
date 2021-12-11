@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 const getDataUsers = () => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT * FROM users";
+        const sqlQuery = "SELECT name, address, contact, gender FROM users";
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
@@ -64,32 +64,9 @@ const putDataUsers = (body, usersId) => {
     });
 };
 
-const searchUserById = (usersId) => {
-    return new Promise((resolve, reject) => {
-        const user = `SELECT id, name, email, contact
-        FROM users  
-        WHERE users.id = ${usersId}`;
-        db.query(user, (err, result) => {
-            if (err) return reject({
-                status: 500,
-                err
-            });
-            if (result.length == 0) return resolve({
-                status: 404,
-                result
-            });
-            resolve({
-                status: 200,
-                result
-            });
-        });
-    });
-};
-
 module.exports = {
     getDataUsers,
     insertDataUsers,
     deleteDataUsers,
     putDataUsers,
-    searchUserById,
 }

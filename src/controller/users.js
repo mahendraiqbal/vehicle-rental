@@ -105,33 +105,9 @@ const putDataUsers = (req, res) => {
         });
 };
 
-const searchUserbyId = (req, res) => {
-    // let id = parseInt(req.params.id);
-    const { params } = req;
-    const usersId = params.id;
-    usersModel.searchUserById(usersId)
-        .then(({
-            status,
-            result
-        }) => {
-            if (status == 404)
-            return res.status(status).json({ msg: "User Tidak Ditemukan", result })
-        })
-        .catch(({
-            status,
-            err
-        }) => {
-            res.status(status).json({
-                msg: "Terjadi Error",
-                err
-            });
-        })
-};
-
 module.exports = {
     getDataUsers,
     insertDataUsers,
     deleteDataUsers,
     putDataUsers,
-    searchUserbyId,
 };

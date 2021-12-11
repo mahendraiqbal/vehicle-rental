@@ -107,15 +107,17 @@ const putDataVehicles = (req, res) => {
         });
 };
 
-const sortByPriceVehicle = (req, res) => {
-    vehiclesModel.sortByPriceVehicle()
+const getByPriceVehicle = (req, res) => {
+    const { params } = req;
+    const vehicleId = params.id;
+    vehiclesModel.getByPriceVehicle(vehicleId)
         .then(({
             status,
             result
         }) => {
             res.status(status).json({
                 msg: "Berhasil",
-                result
+                result,
             });
         })
         .catch(({
@@ -129,36 +131,11 @@ const sortByPriceVehicle = (req, res) => {
         });
 };
 
-const searchVehicleByBrandAndType = (req, res) => {
-    const {
-        query
-    } = req;
-
-    vehiclesModel.searchVehicleByBrandAndType(query)
-        .then(({
-            status,
-            result
-        }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result
-            });
-        }).catch(({
-            status,
-            err
-        }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
-        });
-};
 
 module.exports = {
     getDataVehicles,
     insertDataVehicles,
     deleteDataVehicles,
     putDataVehicles,
-    sortByPriceVehicle,
-    searchVehicleByBrandAndType,
+    getByPriceVehicle,
 };

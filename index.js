@@ -4,7 +4,9 @@ const morgan = require("morgan");
 const mainRouter = require("./src/routers/main");
 
 const server = express();
-const logger = morgan("combined");
+const logger = morgan(
+    ":method :url :status :res[content-length] - :response-time ms"
+);
 
 
 const port = 8080;

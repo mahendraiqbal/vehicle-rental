@@ -15,6 +15,4 @@ usersRouter.delete("/", usersController.deleteDataUsers);
 
 usersRouter.put("/:id", usersController.putDataUsers);
 
-usersRouter.get("/:id", usersController.searchUserbyId);
-
 module.exports = usersRouter;

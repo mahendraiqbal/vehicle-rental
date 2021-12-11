@@ -1,3 +1,4 @@
+const mysql = require("mysql")
 const db = require("../config/db");
 
 const getDataTransactions = () => {
@@ -66,15 +67,44 @@ const putDataTransactions = (body, transactionId) => {
 
 const getPopularVehicle = () => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.name
+        const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.brand
 FROM transactions
 INNER JOIN vehicles ON transactions.vehicle_id = vehicles.id
-GROUP BY vehicles.name
+GROUP BY vehicles.brand
 ORDER BY COUNT(transactions.vehicle_id) DESC
-LIMIT 5`;
+LIMIT 5;`;
         db.query(sqlQuery, (err, result) => {
-            if (err) return reject({status: 500, err})
-            resolve({status:200, result}) 
+            if (err) return reject({
+                status: 500,
+                err
+            })
+            resolve({
+                status: 200,
+                result
+            })
+        });
+    });
+};
+
+const getUserFromTransaction = (query) => {
+    return new Promise((resolve, reject) => {
+        let sqlQuery = `SELECT t.id AS "id", v.name, v.price AS "price"
+FROM transactions t
+JOIN vehicles v ON t.vehicle_id = v.id
+ORDER BY ? ?`;
+const statement = [];
+const order = query.order;
+let orderBy = "";
+statement.push(mysql.raw(orderBy), mysql.raw(order));
+        db.query(sqlQuery, (err, result) => {
+            if (err) return reject({
+                status: 500,
+                err
+            })
+            resolve({
+                status: 200,
+                result
+            })
         });
     });
 };
@@ -85,4 +115,5 @@ module.exports = {
     deleteDataTransactions,
     putDataTransactions,
     getPopularVehicle,
+    getUserFromTransaction,
 }
