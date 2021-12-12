@@ -153,6 +153,9 @@ const sortVehicle = (req, res) => {
         });
 };
 
+const uploadVehicle = (req, res) => {
+    res.status(200).json({ msg: "Success", url: req.file})
+};
 
 module.exports = {
     getDataVehicles,
@@ -161,4 +164,5 @@ module.exports = {
     putDataVehicles,
     getByPriceVehicle,
     sortVehicle,
+    uploadVehicle,
 };
