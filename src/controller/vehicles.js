@@ -131,6 +131,28 @@ const getByPriceVehicle = (req, res) => {
         });
 };
 
+const sortVehicle = (req, res) => {
+    vehiclesModel.sortVehicle()
+        .then(({
+            status,
+            result
+        }) => {
+            res.status(status).json({
+                msg: "Berhasil",
+                result,
+            });
+        })
+        .catch(({
+            status,
+            err
+        }) => {
+            res.status(status).json({
+                msg: "Error",
+                err
+            });
+        });
+};
+
 
 module.exports = {
     getDataVehicles,
@@ -138,4 +160,5 @@ module.exports = {
     deleteDataVehicles,
     putDataVehicles,
     getByPriceVehicle,
+    sortVehicle,
 };

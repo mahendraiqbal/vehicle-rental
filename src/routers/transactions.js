@@ -10,7 +10,7 @@ transactionsRouter.get("/", transactionsController.getDataTransactions);
 
 transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
 
-transactionsRouter.get("/transaction", transactionsController.getUserFromTransaction);
+transactionsRouter.get("/transaction", transactionsController.getVehicleFromTransaction);
 
 transactionsRouter.post("/", transactionsController.insertDataTransactions);
 

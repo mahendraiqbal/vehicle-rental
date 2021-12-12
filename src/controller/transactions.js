@@ -120,9 +120,9 @@ const getPopularVehicle = (req, res) => {
     });
 };
 
-const getUserFromTransaction = (req, res) => {
+const getVehicleFromTransaction = (req, res) => {
     const { query } = req;
-    transactionsModel.getUserFromTransaction(query)
+    transactionsModel.getVehicleFromTransaction(query)
     .then(({status, result}) => {
         res.status(status).json({
                 msg: "Berhasil",
@@ -143,5 +143,5 @@ module.exports = {
     deleteDataTransactions,
     putDataTransactions,
     getPopularVehicle,
-    getUserFromTransaction,
+    getVehicleFromTransaction,
 }

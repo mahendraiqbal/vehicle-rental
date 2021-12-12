@@ -15,4 +15,6 @@ vehiclesRouter.put("/:id", vehiclesController.putDataVehicles);
 
 vehiclesRouter.get("/:id", vehiclesController.getByPriceVehicle);
 
+vehiclesRouter.get("/", vehiclesController.sortVehicle);
+
 module.exports = vehiclesRouter;

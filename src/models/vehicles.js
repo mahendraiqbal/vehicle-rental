@@ -83,7 +83,19 @@ const getByPriceVehicle = (vehicleId) => {
 };
 
 const sortVehicle = () => {
-    
+    return new Promise((resolve, reject) => {
+        const sqlQuery = "SELECT name, price, brand FROM vehicles ORDER BY price DESC";
+        db.query(sqlQuery, (err, result) => {
+            if (err) return reject({
+                status: 500,
+                err
+            });
+            resolve({
+                status: 200,
+                result
+            });
+        });
+    });
 };
 
 module.exports = {
