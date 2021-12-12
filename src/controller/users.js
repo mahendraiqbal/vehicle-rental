@@ -25,8 +25,9 @@ const getDataUsers = (req, res) => {
 
 const insertDataUsers = (req, res) => {
     const {
-        body,
+        body, userInfo
     } = req;
+    console.log("[DEBUG] userInfo", userInfo)
     usersModel
         .insertDataUsers(body)
         .then(({

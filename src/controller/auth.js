@@ -24,6 +24,19 @@ const register = (req, res) => {
         });
 };
 
+const login = (req, res) => {
+    const { body } = req;
+    authModel
+    .loginUser(body)
+    .then(({status, result}) => {
+        responseHelper.success(res, status, result)
+    })
+    .catch(({status, err}) => {
+        responseHelper.error(res, status, err)
+    });
+};
+
 module.exports = {
-    register
-}
+    register,
+    login,
+};

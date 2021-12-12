@@ -1,6 +1,7 @@
 const express = require("express");
 
 const usersController = require("../controller/users")
+const authorize = require("../middlewares/authorize")
 
 const usersRouter = express.Router();
 
@@ -9,7 +10,7 @@ const usersRouter = express.Router();
 // Users Request
 usersRouter.get("/", usersController.getDataUsers);
 
-usersRouter.post("/", usersController.insertDataUsers);
+usersRouter.post("/", authorize.checkToken, usersController.insertDataUsers);
 
 usersRouter.delete("/", usersController.deleteDataUsers);
 
