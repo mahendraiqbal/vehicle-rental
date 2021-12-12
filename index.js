@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const mainRouter = require("./src/routers/main");
 
 const server = express();
@@ -14,6 +15,12 @@ server.listen(port, () => {
     console.log(`Server sudah berjalan di port ${port}`)
 });
 
+const corsOptions = {
+    origin: "*",
+    allowHeaders: "x-access-token",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+};
+server.use(cors(corsOptions));
 server.use(express.urlencoded({
     extended: true
 }));
