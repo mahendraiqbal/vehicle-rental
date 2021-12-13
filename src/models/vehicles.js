@@ -1,4 +1,5 @@
 const db = require("../config/db");
+const mysql = require("mysql");
 
 const getDataVehicles = () => {
     return new Promise((resolve, reject) => {
@@ -82,17 +83,49 @@ const getByPriceVehicle = (vehicleId) => {
     });
 };
 
-const sortVehicle = () => {
+const sortVehicle = (query) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT name, price, brand FROM vehicles ORDER BY price DESC";
-        db.query(sqlQuery, (err, result) => {
+        let sqlQuery = `SELECT * FROM vehicles`;
+        const statement = [];
+
+        const order = query.order;
+        let orderBy = "";
+        if (query.by.toLowerCase() == "price") orderBy = "price";
+        if (query.by.toLowerCase() == "city") orderBy = "city";
+        if (order && orderBy) {
+            sqlQuery += " ORDER BY ? ?";
+            statement.push(mysql.raw(orderBy), mysql.raw(order));
+        }
+
+        const countQuery = `SELECT COUNT(*) AS "count" from vehicles`;
+        db.query(countQuery, (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
             });
-            resolve({
-                status: 200,
-                result
+            const page = parseInt(query.page);
+            const limit = parseInt(query.limit);
+            const count = result[0].count;
+            if (query.page && query.limit) {
+                sqlQuery += " LIMIT ? OFFSET ?";
+                const offset = (page - 1) * limit;
+                statement.push(limit, offset);
+            }
+            const meta = {
+                next: page == Math.ceil(count / limit) ? null : `/vehicles?by=price&order=asc&page=${page + 1}&limit=3`,
+                prev: page == 1 ? null : `/vehicles?by=price&order=asc&page=${page - 1}&limit=3`,
+                count: result[0].count,
+            };
+
+            db.query(sqlQuery, statement, (err, result) => {
+                if (err) return reject({
+                    status: 500,
+                    err
+                });
+                resolve({
+                    status: 200,
+                    result: { data: result, meta}
+                });
             });
         });
     });
@@ -105,4 +138,4 @@ module.exports = {
     putDataVehicles,
     getByPriceVehicle,
     sortVehicle,
-}
+};

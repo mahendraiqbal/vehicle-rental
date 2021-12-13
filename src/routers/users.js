@@ -6,7 +6,6 @@ const authorize = require("../middlewares/authorize")
 const usersRouter = express.Router();
 
 
-
 // Users Request
 usersRouter.get("/", usersController.getDataUsers);
 

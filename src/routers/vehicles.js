@@ -7,7 +7,7 @@ const vehiclesRouter = express.Router();
 const upload = require("../middlewares/upload");
 
 // Vehicles Request
-vehiclesRouter.get("/", vehiclesController.getDataVehicles);
+// vehiclesRouter.get("/", vehiclesController.getDataVehicles);
 
 vehiclesRouter.get("/:id", vehiclesController.getByPriceVehicle);
 
@@ -15,7 +15,7 @@ vehiclesRouter.get("/", vehiclesController.sortVehicle);
 
 vehiclesRouter.post("/", vehiclesController.insertDataVehicles);
 
-vehiclesRouter.post("/upload", upload.single("vehicles"), vehiclesController)
+vehiclesRouter.post("/upload", upload.single("vehicles"), vehiclesController.uploadVehicle);
 
 vehiclesRouter.delete("/", vehiclesController.deleteDataVehicles);
 

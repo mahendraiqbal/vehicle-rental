@@ -1,4 +1,5 @@
-const vehiclesModel = require("../models/vehicles")
+const vehiclesModel = require("../models/vehicles");
+const responseHelper = require("../helpers/responseHelper");
 
 const getDataVehicles = (req, res) => {
     vehiclesModel
@@ -132,24 +133,19 @@ const getByPriceVehicle = (req, res) => {
 };
 
 const sortVehicle = (req, res) => {
-    vehiclesModel.sortVehicle()
+    const { query } = req;
+    vehiclesModel.sortVehicle(query)
         .then(({
             status,
             result
         }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result,
-            });
+            responseHelper.success(res, status, result);
         })
         .catch(({
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 

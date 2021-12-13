@@ -1,5 +1,3 @@
-const mysql = require("mysql")
-const { query } = require("express");
 const db = require("../config/db");
 
 const getDataTransactions = () => {
@@ -87,39 +85,10 @@ LIMIT 5;`;
     });
 };
 
-const getVehicleFromTransaction = () => {
-    return new Promise((resolve, reject) => {
-        let sqlQuery = `SELECT t.id AS id, v.name, v.price AS price
-FROM transactions t
-JOIN vehicles v ON t.vehicle_id = v.id`;
-        const statement = [];
-        const order = query.order;
-        let orderBy = "";
-        if (query.by && query.by.toLowerCase() == "transactions") orderBy = "t.id";
-        if (query.by && query.by.toLowerCase() == "vehicles") orderBy = "v.name";
-        if (query.by && query.by.toLowerCase() == "vehicles") orderBy = "v.price";
-        if(order && orderBy) {
-            sqlQuery += " ORDER BY ? ?";
-            statement.push(mysql.raw(orderBy), mysql.raw(order));
-        }
-        db.query(sqlQuery, statement, (err, result) => {
-            if(err) return reject({
-                status: 500,
-                err
-            })
-            resolve({
-                status: 200,
-                result
-            });
-        });
-    });
-};
-
 module.exports = {
     getDataTransactions,
     insertDataTransactions,
     deleteDataTransactions,
     putDataTransactions,
     getPopularVehicle,
-    getVehicleFromTransaction,
 }
