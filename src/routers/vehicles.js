@@ -11,9 +11,9 @@ const upload = require("../middlewares/upload");
 
 vehiclesRouter.get("/:id", vehiclesController.getByPriceVehicle);
 
-vehiclesRouter.get("/", vehiclesController.sortVehicle);
+vehiclesRouter.get("/", vehiclesController.paginatedVehicle);
 
-vehiclesRouter.post("/", vehiclesController.insertDataVehicles);
+vehiclesRouter.post("/", upload.single("vehicles"), vehiclesController.insertDataVehicles);
 
 vehiclesRouter.post("/upload", upload.single("vehicles"), vehiclesController.uploadVehicle);
 

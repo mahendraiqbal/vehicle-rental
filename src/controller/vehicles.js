@@ -1,28 +1,28 @@
 const vehiclesModel = require("../models/vehicles");
 const responseHelper = require("../helpers/responseHelper");
 
-const getDataVehicles = (req, res) => {
-    vehiclesModel
-        .getDataVehicles()
-        .then(({
-            status,
-            result
-        }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result
-            });
-        })
-        .catch(({
-            status,
-            err
-        }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
-        });
-};
+// const getDataVehicles = (req, res) => {
+//     vehiclesModel
+//         .getDataVehicles()
+//         .then(({
+//             status,
+//             result
+//         }) => {
+//             res.status(status).json({
+//                 msg: "Berhasil",
+//                 result
+//             });
+//         })
+//         .catch(({
+//             status,
+//             err
+//         }) => {
+//             res.status(status).json({
+//                 msg: "Error",
+//                 err
+//             });
+//         });
+// };
 
 const insertDataVehicles = (req, res) => {
     const {
@@ -39,6 +39,7 @@ const insertDataVehicles = (req, res) => {
                 result: {
                     ...body,
                     id: result.insertId,
+                    url: req.file,
                 },
             });
         })
@@ -132,9 +133,9 @@ const getByPriceVehicle = (req, res) => {
         });
 };
 
-const sortVehicle = (req, res) => {
+const paginatedVehicle = (req, res) => {
     const { query } = req;
-    vehiclesModel.sortVehicle(query)
+    vehiclesModel.paginatedVehicle(query)
         .then(({
             status,
             result
@@ -154,11 +155,11 @@ const uploadVehicle = (req, res) => {
 };
 
 module.exports = {
-    getDataVehicles,
+    // getDataVehicles,
     insertDataVehicles,
     deleteDataVehicles,
     putDataVehicles,
     getByPriceVehicle,
-    sortVehicle,
+    paginatedVehicle,
     uploadVehicle,
 };

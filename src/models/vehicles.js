@@ -1,21 +1,21 @@
 const db = require("../config/db");
 const mysql = require("mysql");
 
-const getDataVehicles = () => {
-    return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT * FROM vehicles";
-        db.query(sqlQuery, (err, result) => {
-            if (err) return reject({
-                status: 500,
-                err
-            });
-            resolve({
-                status: 200,
-                result
-            });
-        });
-    });
-};
+// const getDataVehicles = () => {
+//     return new Promise((resolve, reject) => {
+//         const sqlQuery = "SELECT * FROM vehicles";
+//         db.query(sqlQuery, (err, result) => {
+//             if (err) return reject({
+//                 status: 500,
+//                 err
+//             });
+//             resolve({
+//                 status: 200,
+//                 result
+//             });
+//         });
+//     });
+// };
 
 const insertDataVehicles = (body) => {
     return new Promise((resolve, reject) => {
@@ -83,19 +83,33 @@ const getByPriceVehicle = (vehicleId) => {
     });
 };
 
-const sortVehicle = (query) => {
+const paginatedVehicle = (query) => {
     return new Promise((resolve, reject) => {
         let sqlQuery = `SELECT * FROM vehicles`;
         const statement = [];
+
+        const search = query.search;
+        if (query.search) {
+            sqlQuery += " WHERE type LIKE ?";
+            statement.push(mysql.raw(search));
+        }
+
+        const filter = query.filter;
+        if (query.filter) {
+            sqlQuery += " AND price = ?"
+            statement.push(filter);
+        }
 
         const order = query.order;
         let orderBy = "";
         if (query.by.toLowerCase() == "price") orderBy = "price";
         if (query.by.toLowerCase() == "city") orderBy = "city";
+        if (query.by.toLowerCase() == "type") orderBy = "type";
         if (order && orderBy) {
             sqlQuery += " ORDER BY ? ?";
             statement.push(mysql.raw(orderBy), mysql.raw(order));
         }
+
 
         const countQuery = `SELECT COUNT(*) AS "count" from vehicles`;
         db.query(countQuery, (err, result) => {
@@ -103,6 +117,7 @@ const sortVehicle = (query) => {
                 status: 500,
                 err
             });
+
             const page = parseInt(query.page);
             const limit = parseInt(query.limit);
             const count = result[0].count;
@@ -124,7 +139,10 @@ const sortVehicle = (query) => {
                 });
                 resolve({
                     status: 200,
-                    result: { data: result, meta}
+                    result: {
+                        data: result,
+                        meta
+                    }
                 });
             });
         });
@@ -132,10 +150,10 @@ const sortVehicle = (query) => {
 };
 
 module.exports = {
-    getDataVehicles,
+    // getDataVehicles,
     insertDataVehicles,
     deleteDataVehicles,
     putDataVehicles,
     getByPriceVehicle,
-    sortVehicle,
+    paginatedVehicle,
 };

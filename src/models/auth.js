@@ -55,7 +55,6 @@ const loginUser = (body) => {
                 id: result[0].id,
                 name: result[0].name,
                 email: result[0].email,
-                role: result[0].role_id
             };
             const jwtOptions = {
                 expiresIn: "10m",

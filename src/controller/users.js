@@ -37,7 +37,11 @@ const insertDataUsers = (req, res) => {
             res.status(status).json({
                 msg: "Berhasil",
                 result: {
-                    ...body,
+                    name: body.name,
+                    email: body.email,
+                    address: body.address,
+                    contact: body.contact,
+                    gender: body.gender,
                     id: result.insertId,
                 },
             });
