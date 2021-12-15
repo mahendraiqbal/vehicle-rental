@@ -1,22 +1,6 @@
 const db = require("../config/db");
 const mysql = require("mysql");
 
-// const getDataVehicles = () => {
-//     return new Promise((resolve, reject) => {
-//         const sqlQuery = "SELECT * FROM vehicles";
-//         db.query(sqlQuery, (err, result) => {
-//             if (err) return reject({
-//                 status: 500,
-//                 err
-//             });
-//             resolve({
-//                 status: 200,
-//                 result
-//             });
-//         });
-//     });
-// };
-
 const insertDataVehicles = (body) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `INSERT INTO vehicles SET ?`;
@@ -49,7 +33,7 @@ const deleteDataVehicles = (id) => {
     });
 };
 
-const putDataVehicles = (body, vehicleId) => {
+const patchDataVehicles = (body, vehicleId) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `UPDATE vehicles SET ? WHERE vehicles.id = ${vehicleId}`;
         db.query(sqlQuery, body, (err, result) => {
@@ -65,7 +49,7 @@ const putDataVehicles = (body, vehicleId) => {
     });
 };
 
-const getByPriceVehicle = (vehicleId) => {
+const getByPriceId = (vehicleId) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `SELECT brand, name, price
         FROM vehicles 
@@ -88,28 +72,34 @@ const paginatedVehicle = (query) => {
         let sqlQuery = `SELECT * FROM vehicles`;
         const statement = [];
 
-        const search = query.search;
-        if (query.search) {
-            sqlQuery += " WHERE type LIKE ?";
-            statement.push(mysql.raw(search));
+        let type = "";
+        if (query.type && query.type.toLowerCase() == "car") type = "car";
+        if (query.type && query.type.toLowerCase() == "motorbike") type = "motorbike";
+        if (query.type && query.type.toLowerCase() == "bicycle") type = "bicycle";
+        if (type) {
+            sqlQuery += " WHERE type = ?";
+            statement.push(type);
         }
 
-        const filter = query.filter;
-        if (query.filter) {
-            sqlQuery += " AND price = ?"
-            statement.push(filter);
+        let capacity = "";
+        if (query.capacity && query.capacity.toLowerCase() == "1") capacity = "1";
+        if (query.capacity && query.capacity.toLowerCase() == "2") capacity = "2";
+        if (query.capacity && query.capacity.toLowerCase() == "4") capacity = "4";
+        if (query.capacity && query.capacity.toLowerCase() == "6") capacity = "6";
+        if (capacity) {
+            sqlQuery += " AND capacity LIKE ?";
+            statement.push(capacity);
         }
 
         const order = query.order;
         let orderBy = "";
-        if (query.by.toLowerCase() == "price") orderBy = "price";
-        if (query.by.toLowerCase() == "city") orderBy = "city";
-        if (query.by.toLowerCase() == "type") orderBy = "type";
+        if (query.by && query.by.toLowerCase() == "price") orderBy = "price";
+        if (query.by && query.by.toLowerCase() == "city") orderBy = "city";
+        if (query.by && query.by.toLowerCase() == "type") orderBy = "type";
         if (order && orderBy) {
             sqlQuery += " ORDER BY ? ?";
             statement.push(mysql.raw(orderBy), mysql.raw(order));
         }
-
 
         const countQuery = `SELECT COUNT(*) AS "count" from vehicles`;
         db.query(countQuery, (err, result) => {
@@ -127,8 +117,8 @@ const paginatedVehicle = (query) => {
                 statement.push(limit, offset);
             }
             const meta = {
-                next: page == Math.ceil(count / limit) ? null : `/vehicles?by=price&order=asc&page=${page + 1}&limit=3`,
-                prev: page == 1 ? null : `/vehicles?by=price&order=asc&page=${page - 1}&limit=3`,
+                next: page == Math.ceil(count / limit) ? null : `/vehicles?type=${type}&capacity=${capacity}&by=${orderBy}&order=${order}&page=${page + 1}&limit=3`,
+                prev: page == 1 ? null : `/vehicles?type=${type}&${capacity}&by=${orderBy}&order=${order}&page=${page - 1}&limit=3`,
                 count: result[0].count,
             };
 
@@ -150,10 +140,9 @@ const paginatedVehicle = (query) => {
 };
 
 module.exports = {
-    // getDataVehicles,
     insertDataVehicles,
     deleteDataVehicles,
-    putDataVehicles,
-    getByPriceVehicle,
+    patchDataVehicles,
+    getByPriceId,
     paginatedVehicle,
 };

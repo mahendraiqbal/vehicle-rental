@@ -11,11 +11,6 @@ const register = (req, res) => {
                 id: result.insertId,
                 name: body.name,
                 email: body.email,
-                address: body.address,
-                contact: body.contact,
-                gender: body.gender,
-                DoB: body.DoB,
-                created_at: body.created_at,
             };
             responseHelper.success(res, status, objResponse);
         })

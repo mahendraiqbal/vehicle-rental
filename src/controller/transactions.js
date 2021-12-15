@@ -1,4 +1,5 @@
-const transactionsModel = require("../models/transactions")
+const transactionsModel = require("../models/transactions");
+const responseHelper = require("../helpers/responseHelper");
 
 const getDataTransactions = (req, res) => {
     transactionsModel
@@ -7,19 +8,13 @@ const getDataTransactions = (req, res) => {
             status,
             result
         }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result
-            });
+            responseHelper.success(res, status, result);
         })
         .catch(({
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
@@ -45,10 +40,7 @@ const insertDataTransactions = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
@@ -72,15 +64,15 @@ const deleteDataTransactions = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
 const putDataTransactions = (req, res) => {
-    const { params, body } = req;
+    const {
+        params,
+        body
+    } = req;
     const transactionId = params.id;
     transactionsModel.putDataTransactions(body, transactionId)
         .then(({
@@ -106,18 +98,18 @@ const putDataTransactions = (req, res) => {
 
 const getPopularVehicle = (req, res) => {
     transactionsModel.getPopularVehicle()
-    .then(({status, result}) => {
-        res.status(status).json({
-                msg: "Berhasil",
-                result
-            })
-    })
-    .catch(({status, err}) => {
-        res.status(status).json({
-                msg: "Error",
-                err
-            }); 
-    });
+        .then(({
+            status,
+            result
+        }) => {
+            responseHelper.success(res, status, result);
+        })
+        .catch(({
+            status,
+            err
+        }) => {
+            responseHelper.error(res, status, err);
+        });
 };
 
 module.exports = {

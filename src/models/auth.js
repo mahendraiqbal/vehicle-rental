@@ -5,7 +5,14 @@ const db = require("../config/db");
 
 const createNewUser = (body) => {
     return new Promise((resolve, reject) => {
-        // cek email tidak duplikat
+        // check email duplicate
+        // const emailDuplicate = `SELECT email FROM users WHERE email = ${body.email}`
+        // db.query(emailDuplicate, (err, result) => {
+        //     if (err) return reject({ status: 500, err});
+        //     if (result.length >= 1)
+        //     return reject({ status: 400, err: "Email Dupplicated"})
+        // })
+
         const sqlQuery = "INSERT INTO users SET ?"
         bcrypt
             .hash(body.password, 10)
@@ -61,7 +68,7 @@ const loginUser = (body) => {
                 issuer: process.env.ISSUER,
             };
             jwt.sign(payload, process.env.SECRET_KEY, jwtOptions, (err, token) => {
-                if (payload.role === 1) return 
+                // if (payload.role === 1) return 
                 if (err) return reject({
                     status: 500,
                     err

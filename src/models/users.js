@@ -48,7 +48,7 @@ const deleteDataUsers = (id) => {
     });
 };
 
-const putDataUsers = (body, usersId) => {
+const patchDataUsers = (body, usersId) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `UPDATE users SET ? WHERE users.id = ${usersId}`;
         db.query(sqlQuery, body, (err, result) => {
@@ -68,5 +68,5 @@ module.exports = {
     getDataUsers,
     insertDataUsers,
     deleteDataUsers,
-    putDataUsers,
+    patchDataUsers,
 }

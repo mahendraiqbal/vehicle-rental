@@ -1,33 +1,29 @@
-const usersModel = require("../models/users")
+const usersModel = require("../models/users");
+const responseHelper = require("../helpers/responseHelper");
 
 const getDataUsers = (req, res) => {
+    const { userInfo } = req;
+    console.log("[DEBUG] userInfo", userInfo)
     usersModel
         .getDataUsers()
         .then(({
             status,
             result
         }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result
-            });
+            responseHelper.success(res, status, result);
         })
         .catch(({
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
 const insertDataUsers = (req, res) => {
     const {
-        body, userInfo
+        body,
     } = req;
-    console.log("[DEBUG] userInfo", userInfo)
     usersModel
         .insertDataUsers(body)
         .then(({
@@ -43,6 +39,7 @@ const insertDataUsers = (req, res) => {
                     contact: body.contact,
                     gender: body.gender,
                     id: result.insertId,
+                    url: req.file,
                 },
             });
         })
@@ -50,10 +47,7 @@ const insertDataUsers = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
@@ -78,17 +72,14 @@ const deleteDataUsers = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
-const putDataUsers = (req, res) => {
+const patchDataUsers = (req, res) => {
     const { params, body } = req;
     const usersId = params.id;
-    usersModel.putDataUsers(body, usersId)
+    usersModel.patchDataUsers(body, usersId)
         .then(({
             status,
         }) => {
@@ -96,6 +87,7 @@ const putDataUsers = (req, res) => {
                 msg: "Berhasil",
                 result: {
                     ...body,
+                    url: req.file,
                 },
             });
         })
@@ -103,10 +95,7 @@ const putDataUsers = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err)
         });
 };
 
@@ -114,5 +103,5 @@ module.exports = {
     getDataUsers,
     insertDataUsers,
     deleteDataUsers,
-    putDataUsers,
+    patchDataUsers,
 };

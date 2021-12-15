@@ -6,14 +6,13 @@ const upload = require("../middlewares/upload");
 
 const usersRouter = express.Router();
 
-
 // Users Request
-usersRouter.get("/", usersController.getDataUsers);
+usersRouter.get("/",authorize.checkToken, usersController.getDataUsers);
 
-usersRouter.post("/", authorize.checkToken, upload.single("profile"), usersController.insertDataUsers);
+usersRouter.post("/", upload.single("profile"), usersController.insertDataUsers);
 
 usersRouter.delete("/", usersController.deleteDataUsers);
 
-usersRouter.put("/:id", usersController.putDataUsers);
+usersRouter.patch("/:id", upload.single("profile"), usersController.patchDataUsers);
 
 module.exports = usersRouter;

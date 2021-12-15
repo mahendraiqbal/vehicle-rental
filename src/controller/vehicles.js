@@ -1,29 +1,6 @@
 const vehiclesModel = require("../models/vehicles");
 const responseHelper = require("../helpers/responseHelper");
 
-// const getDataVehicles = (req, res) => {
-//     vehiclesModel
-//         .getDataVehicles()
-//         .then(({
-//             status,
-//             result
-//         }) => {
-//             res.status(status).json({
-//                 msg: "Berhasil",
-//                 result
-//             });
-//         })
-//         .catch(({
-//             status,
-//             err
-//         }) => {
-//             res.status(status).json({
-//                 msg: "Error",
-//                 err
-//             });
-//         });
-// };
-
 const insertDataVehicles = (req, res) => {
     const {
         body,
@@ -47,10 +24,7 @@ const insertDataVehicles = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err)
         });
 };
 
@@ -77,17 +51,14 @@ const deleteDataVehicles = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err);
         });
 };
 
-const putDataVehicles = (req, res) => {
+const patchDataVehicles = (req, res) => {
     const { params, body } = req;
     const vehicleId = params.id;
-    vehiclesModel.putDataVehicles(body, vehicleId)
+    vehiclesModel.patchDataVehicles(body, vehicleId)
         .then(({
             status,
         }) => {
@@ -95,6 +66,7 @@ const putDataVehicles = (req, res) => {
                 msg: "Berhasil",
                 result: {
                     ...body,
+                    url: req.file
                 },
             });
         })
@@ -102,34 +74,25 @@ const putDataVehicles = (req, res) => {
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err)
         });
 };
 
-const getByPriceVehicle = (req, res) => {
+const getByPriceId = (req, res) => {
     const { params } = req;
     const vehicleId = params.id;
-    vehiclesModel.getByPriceVehicle(vehicleId)
+    vehiclesModel.getByPriceId(vehicleId)
         .then(({
             status,
             result
         }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result,
-            });
+            responseHelper.success(res, status, result);
         })
         .catch(({
             status,
             err
         }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
+            responseHelper.error(res, status, err)
         });
 };
 
@@ -150,16 +113,11 @@ const paginatedVehicle = (req, res) => {
         });
 };
 
-const uploadVehicle = (req, res) => {
-    res.status(200).json({ msg: "Success", url: req.file})
-};
 
 module.exports = {
-    // getDataVehicles,
     insertDataVehicles,
     deleteDataVehicles,
-    putDataVehicles,
-    getByPriceVehicle,
+    patchDataVehicles,
+    getByPriceId,
     paginatedVehicle,
-    uploadVehicle,
 };

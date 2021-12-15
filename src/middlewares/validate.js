@@ -2,7 +2,7 @@ const responseHelper = require("../helpers/responseHelper")
 
 const register = (req, res, next) => {
     const { body } = req;
-    const registerBody = ["name", "email", "password", "address", "contact", "gender", "DoB", "created_at"];
+    const registerBody = ["name", "email", "password"];
     const bodyProperty = Object.keys(body);
     const isBodyValid =
         registerBody.filter((property) => !bodyProperty.includes(property))
