@@ -6,12 +6,12 @@ const db = require("../config/db");
 const createNewUser = (body) => {
     return new Promise((resolve, reject) => {
         // check email duplicate
-        // const emailDuplicate = `SELECT email FROM users WHERE email = ${body.email}`
-        // db.query(emailDuplicate, (err, result) => {
-        //     if (err) return reject({ status: 500, err});
-        //     if (result.length >= 1)
-        //     return reject({ status: 400, err: "Email Duplicated"})
-        // })
+        const emailDuplicated = `SELECT email FROM users WHERE email = ${body.email}`
+        db.query(emailDuplicated, (err, result) => {
+            if (err) return reject({ status: 500, err });
+            if (result.length >= 1)
+            return reject({ status: 400, err: "Email Duplicated"})
+        })
 
         const sqlQuery = "INSERT INTO users SET ?"
         bcrypt

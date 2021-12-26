@@ -13,8 +13,6 @@ usersRouter.post("/", authorize.checkToken ,authorize.roleCustomer ,upload.singl
 
 usersRouter.delete("/", authorize.checkToken, authorize.roleAdmin || authorize.roleCustomer, usersController.deleteDataUsers);
 
-// usersRouter.patch("/:id", upload.single("profile"), usersController.patchDataUsers);
-
 usersRouter.patch("/update", authorize.checkToken, upload.single("profile"), usersController.patchDataUsers)
 
 module.exports = usersRouter;
