@@ -12,7 +12,7 @@ const insertDataVehicles = (req, res) => {
             result
         }) => {
             res.status(status).json({
-                msg: "Berhasil",
+                msg: "Vehicle has been added",
                 result: {
                     ...body,
                     id: result.insertId,
@@ -42,7 +42,7 @@ const deleteDataVehicles = (req, res) => {
         }) => {
             res.status(status).json({
                 result: {
-                    msg: "Vehicles telah dihapus",
+                    msg: "Vehicles has been deleted",
                     id: result.insertId,
                 }
             });
@@ -56,17 +56,19 @@ const deleteDataVehicles = (req, res) => {
 };
 
 const patchDataVehicles = (req, res) => {
-    const { params, body } = req;
-    const vehicleId = params.id;
+    const { body } = req;
+    const { vehicleId } = req.userInfo;
     vehiclesModel.patchDataVehicles(body, vehicleId)
         .then(({
             status,
+            result
         }) => {
             res.status(status).json({
-                msg: "Berhasil",
+                msg: "Data Updated",
                 result: {
                     ...body,
-                    url: req.file
+                    url: req.file,
+                    id: result.insertId,
                 },
             });
         })

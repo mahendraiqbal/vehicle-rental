@@ -9,9 +9,11 @@ const storage = multer.diskStorage({
     limits: {
         fileSize : 2 * 1024 * 1024
     },
-    fileUpload: function(file) {
-        if (!file.mimetype == 'jpg' || !file.mimetype == 'png' || !file.mimetype == 'jpeg') {
-            return false;
+    fileUpload: function(req, file, cb) {
+        if (file.mimetype == 'jpg' || !file.mimetype == 'png' || !file.mimetype == 'jpeg') {
+            cb(null, false);
+        } else {
+            cb(null, false);
         }
     },
     filename: (req, file, cb) => {

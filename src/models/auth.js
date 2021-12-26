@@ -10,7 +10,7 @@ const createNewUser = (body) => {
         // db.query(emailDuplicate, (err, result) => {
         //     if (err) return reject({ status: 500, err});
         //     if (result.length >= 1)
-        //     return reject({ status: 400, err: "Email Dupplicated"})
+        //     return reject({ status: 400, err: "Email Duplicated"})
         // })
 
         const sqlQuery = "INSERT INTO users SET ?"
@@ -20,6 +20,7 @@ const createNewUser = (body) => {
                 const bodyWithHashedPassword = {
                     ...body,
                     password: hashedPassword,
+                    roles_id: 1,
                 };
                 db.query(sqlQuery, [bodyWithHashedPassword], (err, result) => {
                     if (err) return reject({
@@ -39,7 +40,6 @@ const createNewUser = (body) => {
                 });
             });
     });
-
 };
 
 const loginUser = (body) => {
@@ -48,15 +48,16 @@ const loginUser = (body) => {
             email,
             password
         } = body;
-        const sqlQuery = `SELECT * FROM users WHERE ? AND ?`
-        db.query(sqlQuery, [{email}, {password}], (err, result) => {
-            if (err) return reject({
-                status: 500,
-                err
-            });
-            if (result.length == 0) return reject({
-                status: 401,
-                err: "Email/Password Salah"
+        const user = `SELECT * FROM users WHERE ?`
+        db.query(user, [{
+            email
+        }], (err, result) => {
+            console.log(result[0].id);
+            console.log(body.password);
+            console.log(result[0].password);
+            // var id = result[0].id;
+            bcrypt.compare(body.password, result[0].password, (err, result) => {
+                console.log(result);
             });
             const payload = {
                 id: result[0].id,
@@ -67,6 +68,8 @@ const loginUser = (body) => {
                 expiresIn: "10m",
                 issuer: process.env.ISSUER,
             };
+            console.log(result);
+            console.log(password);
             jwt.sign(payload, process.env.SECRET_KEY, jwtOptions, (err, token) => {
                 // if (payload.role === 1) return 
                 if (err) return reject({
@@ -80,8 +83,7 @@ const loginUser = (body) => {
                     },
                 });
             });
-
-        });
+        })
     });
 };
 

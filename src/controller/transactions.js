@@ -68,34 +68,6 @@ const deleteDataTransactions = (req, res) => {
         });
 };
 
-const putDataTransactions = (req, res) => {
-    const {
-        params,
-        body
-    } = req;
-    const transactionId = params.id;
-    transactionsModel.putDataTransactions(body, transactionId)
-        .then(({
-            status,
-        }) => {
-            res.status(status).json({
-                msg: "Berhasil",
-                result: {
-                    ...body,
-                },
-            });
-        })
-        .catch(({
-            status,
-            err
-        }) => {
-            res.status(status).json({
-                msg: "Error",
-                err
-            });
-        });
-};
-
 const getPopularVehicle = (req, res) => {
     transactionsModel.getPopularVehicle()
         .then(({
@@ -116,6 +88,5 @@ module.exports = {
     getDataTransactions,
     insertDataTransactions,
     deleteDataTransactions,
-    putDataTransactions,
     getPopularVehicle,
 }

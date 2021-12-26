@@ -31,7 +31,7 @@ const insertDataUsers = (req, res) => {
             result
         }) => {
             res.status(status).json({
-                msg: "Berhasil",
+                msg: "User has been added",
                 result: {
                     name: body.name,
                     email: body.email,
@@ -64,7 +64,7 @@ const deleteDataUsers = (req, res) => {
             result
         }) => {
             res.status(status).json({
-                msg: "User Telah Dihapus",
+                msg: "User has been deleted",
                 id: result.insertId,
             });
         })
@@ -77,19 +77,22 @@ const deleteDataUsers = (req, res) => {
 };
 
 const patchDataUsers = (req, res) => {
-    const { params, body } = req;
-    const usersId = params.id;
+    const { body } = req;
+    const { usersId } = req.userInfo;
     usersModel.patchDataUsers(body, usersId)
         .then(({
             status,
+            result,
         }) => {
             res.status(status).json({
-                msg: "Berhasil",
+                msg: "Data Updated",
                 result: {
                     ...body,
                     url: req.file,
+                    id: result.insertId,
                 },
             });
+            // responseHelper(res, status, result);
         })
         .catch(({
             status,

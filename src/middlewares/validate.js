@@ -12,16 +12,16 @@ const register = (req, res, next) => {
         next();
 };
 
-const checkDuplicateEmail = (req, res, next) => {
-    const { body } = req;
-    const duplicateEmail = ["email"];
-    const bodyEmail = Object.keys(body);
-    const isEmailValid = 
-        duplicateEmail.filter((property) => !bodyEmail.includes(property))
-        .length == 0
-        ? true: false;
-        if (!isEmailValid) return responseHelper.error(res, 404, "Email Duplikat");
-        next();
-}
+// const checkDuplicateEmail = (req, res, next) => {
+//     const { body } = req;
+//     const duplicateEmail = ["email"];
+//     const bodyEmail = Object.keys(body);
+//     const isEmailValid = 
+//         duplicateEmail.filter((property) => !bodyEmail.includes(property))
+//         .length == 0
+//         ? true: false;
+//         if (!isEmailValid) return responseHelper.error(res, 404, "Email Duplikat");
+//         next();
+// }
 
-module.exports = { register, checkDuplicateEmail }; 
+module.exports = { register }; 

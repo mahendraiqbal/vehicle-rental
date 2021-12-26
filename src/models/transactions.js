@@ -48,22 +48,6 @@ const deleteDataTransactions = (id) => {
     });
 };
 
-const putDataTransactions = (body, transactionId) => {
-    return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE transactions SET ? WHERE transactions.id = ${transactionId}`;
-        db.query(sqlQuery, body, (err, result) => {
-            if (err) return reject({
-                status: 500,
-                err
-            })
-            resolve({
-                status: 200,
-                result
-            });
-        });
-    });
-};
-
 const getPopularVehicle = () => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.brand
@@ -89,6 +73,5 @@ module.exports = {
     getDataTransactions,
     insertDataTransactions,
     deleteDataTransactions,
-    putDataTransactions,
     getPopularVehicle,
 }

@@ -35,8 +35,8 @@ const deleteDataVehicles = (id) => {
 
 const patchDataVehicles = (body, vehicleId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE vehicles SET ? WHERE vehicles.id = ${vehicleId}`;
-        db.query(sqlQuery, body, (err, result) => {
+        const sqlQuery = `UPDATE vehicles SET ? WHERE vehicles.id = ?`;
+        db.query(sqlQuery, [body, vehicleId], (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
@@ -81,14 +81,16 @@ const paginatedVehicle = (query) => {
             statement.push(type);
         }
 
-        let capacity = "";
-        if (query.capacity && query.capacity.toLowerCase() == "1") capacity = "1";
-        if (query.capacity && query.capacity.toLowerCase() == "2") capacity = "2";
-        if (query.capacity && query.capacity.toLowerCase() == "4") capacity = "4";
-        if (query.capacity && query.capacity.toLowerCase() == "6") capacity = "6";
-        if (capacity) {
-            sqlQuery += " AND capacity LIKE ?";
-            statement.push(capacity);
+        let city = "";
+        if (query.city && query.city.toLowerCase() == "Temanggung") city = "Temanggung";
+        if (query.city && query.city.toLowerCase() == "Magelang") city = "Magelang";
+        if (query.city && query.city.toLowerCase() == "Parakan") city = "Parakan";
+        if (query.city && query.city.toLowerCase() == "Klaten") city = "Klaten";
+        if (query.city && query.city.toLowerCase() == "Yogyakarta") city = "Yogyakarta";
+        if (query.city && query.city.toLowerCase() == "Wonosobo") city = "Wonosobo";
+        if (city) {
+            sqlQuery += " AND city LIKE ?";
+            statement.push(city);
         }
 
         const order = query.order;
@@ -117,8 +119,8 @@ const paginatedVehicle = (query) => {
                 statement.push(limit, offset);
             }
             const meta = {
-                next: page == Math.ceil(count / limit) ? null : `/vehicles?type=${type}&capacity=${capacity}&by=${orderBy}&order=${order}&page=${page + 1}&limit=3`,
-                prev: page == 1 ? null : `/vehicles?type=${type}&${capacity}&by=${orderBy}&order=${order}&page=${page - 1}&limit=3`,
+                next: page == Math.ceil(count / limit) ? null : `/vehicles?type=${type}&city=${city}&by=${orderBy}&order=${order}&page=${page + 1}&limit=3`,
+                prev: page == 1 ? null : `/vehicles?type=${type}&city=${city}&by=${orderBy}&order=${order}&page=${page - 1}&limit=3`,
                 count: result[0].count,
             };
 

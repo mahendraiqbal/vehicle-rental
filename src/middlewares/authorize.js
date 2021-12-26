@@ -17,4 +17,28 @@ const checkToken = (req, res, next) => {
     });
 };
 
-module.exports = { checkToken };
+const roleCustomer = (req, res, next) => {
+    const { roles_id } = req.userInfo;
+    if (roles_id == 1) {
+        return res.status(403).json({ err: "You're not Customer" })
+    }
+    next();
+}
+
+const roleAdmin = (req, res, next) => {
+    const { roles_id } = req.userInfo;
+    if (!roles_id == 2) {
+        return res.status(403).json({ err: "You're not Admin" })
+    }
+    next();
+}
+
+const roleOwner = (req, res, next) => {
+    const { roles_id } = req.userInfo;
+    if (!roles_id == 3) {
+        return res.status(403).json({ err: "You're not Owner" })
+    }
+    next();
+}
+
+module.exports = { checkToken, roleCustomer, roleAdmin, roleOwner };
