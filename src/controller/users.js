@@ -78,8 +78,8 @@ const deleteDataUsers = (req, res) => {
 
 const patchDataUsers = (req, res) => {
     const { body } = req;
-    const { usersId } = req.userInfo;
-    usersModel.patchDataUsers(body, usersId)
+    const { id } = req.userInfo;
+    usersModel.patchDataUsers(body, id)
         .then(({
             status,
             result,

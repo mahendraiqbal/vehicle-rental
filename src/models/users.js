@@ -48,10 +48,10 @@ const deleteDataUsers = (id) => {
     });
 };
 
-const patchDataUsers = (body, usersId) => {
+const patchDataUsers = (body, id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE users SET ? WHERE users.id = ?`;
-        db.query(sqlQuery, [body, usersId], (err, result) => {
+        const sqlQuery = `UPDATE users SET ? WHERE id = ?`;
+        db.query(sqlQuery, [body, id], (err, result) => {
             if (err) return reject({
                 status: 500,
                 err

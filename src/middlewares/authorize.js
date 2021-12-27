@@ -20,25 +20,26 @@ const checkToken = (req, res, next) => {
 const roleCustomer = (req, res, next) => {
     const { roles_id } = req.userInfo;
     if (roles_id == 1) {
-        return res.status(403).json({ err: "You're not Customer" })
+        return next();
     }
-    next();
+    res.status(403).json({ err: "You're not a Customer" })
 }
 
 const roleAdmin = (req, res, next) => {
     const { roles_id } = req.userInfo;
-    if (!roles_id == 2) {
-        return res.status(403).json({ err: "You're not Admin" })
+    if (roles_id == 2) {
+        return next();
     }
-    next();
+    res.status(403).json({ err: "You're not a Admin" })
 }
 
 const roleOwner = (req, res, next) => {
     const { roles_id } = req.userInfo;
-    if (!roles_id == 3) {
-        return res.status(403).json({ err: "You're not Owner" })
+    console.log(roles_id)
+    if (roles_id == 3) {
+        return next();
     }
-    next();
+    res.status(403).json({ err: "You're not a Owner" })
 }
 
 module.exports = { checkToken, roleCustomer, roleAdmin, roleOwner };

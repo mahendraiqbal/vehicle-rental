@@ -57,8 +57,8 @@ const deleteDataVehicles = (req, res) => {
 
 const patchDataVehicles = (req, res) => {
     const { body } = req;
-    const { vehicleId } = req.userInfo;
-    vehiclesModel.patchDataVehicles(body, vehicleId)
+    const { id } = req.userInfo;
+    vehiclesModel.patchDataVehicles(body, id)
         .then(({
             status,
             result

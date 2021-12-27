@@ -6,12 +6,18 @@ const db = require("../config/db");
 const createNewUser = (body) => {
     return new Promise((resolve, reject) => {
         // check email duplicate
-        const emailDuplicated = `SELECT email FROM users WHERE email = ${body.email}`
-        db.query(emailDuplicated, (err, result) => {
-            if (err) return reject({ status: 500, err });
-            if (result.length >= 1)
-            return reject({ status: 400, err: "Email Duplicated"})
-        })
+        // const emailDuplicated = `SELECT email FROM users WHERE email = ${body.email}`
+        // db.query(emailDuplicated, (err, result) => {
+        //     if (err) return reject({
+        //         status: 500,
+        //         err
+        //     });
+        //     if (result.length >= 1)
+        //         return reject({
+        //             status: 400,
+        //             err: "Email Duplicated"
+        //         })
+        // })
 
         const sqlQuery = "INSERT INTO users SET ?"
         bcrypt
@@ -23,6 +29,7 @@ const createNewUser = (body) => {
                     roles_id: 1,
                 };
                 db.query(sqlQuery, [bodyWithHashedPassword], (err, result) => {
+                    console.log(bodyWithHashedPassword)
                     if (err) return reject({
                         status: 500,
                         err

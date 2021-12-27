@@ -33,10 +33,10 @@ const deleteDataVehicles = (id) => {
     });
 };
 
-const patchDataVehicles = (body, vehicleId) => {
+const patchDataVehicles = (body, id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `UPDATE vehicles SET ? WHERE vehicles.id = ?`;
-        db.query(sqlQuery, [body, vehicleId], (err, result) => {
+        const sqlQuery = `UPDATE vehicles SET ? WHERE id = ?`;
+        db.query(sqlQuery, [body, id], (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
@@ -72,24 +72,27 @@ const paginatedVehicle = (query) => {
         let sqlQuery = `SELECT * FROM vehicles`;
         const statement = [];
 
+        // logika buat where
+        
+
         let type = "";
         if (query.type && query.type.toLowerCase() == "car") type = "car";
         if (query.type && query.type.toLowerCase() == "motorbike") type = "motorbike";
         if (query.type && query.type.toLowerCase() == "bicycle") type = "bicycle";
         if (type) {
-            sqlQuery += " WHERE type = ?";
+            sqlQuery += "  type = ?";
             statement.push(type);
         }
 
         let city = "";
-        if (query.city && query.city.toLowerCase() == "Temanggung") city = "Temanggung";
-        if (query.city && query.city.toLowerCase() == "Magelang") city = "Magelang";
-        if (query.city && query.city.toLowerCase() == "Parakan") city = "Parakan";
-        if (query.city && query.city.toLowerCase() == "Klaten") city = "Klaten";
-        if (query.city && query.city.toLowerCase() == "Yogyakarta") city = "Yogyakarta";
-        if (query.city && query.city.toLowerCase() == "Wonosobo") city = "Wonosobo";
+        if (query.city && query.city.toLowerCase() == "temanggung") city = "Temanggung";
+        if (query.city && query.city.toLowerCase() == "magelang") city = "Magelang";
+        if (query.city && query.city.toLowerCase() == "parakan") city = "Parakan";
+        if (query.city && query.city.toLowerCase() == "klaten") city = "Klaten";
+        if (query.city && query.city.toLowerCase() == "yogyakarta") city = "Yogyakarta";
+        if (query.city && query.city.toLowerCase() == "wonosobo") city = "Wonosobo";
         if (city) {
-            sqlQuery += " AND city LIKE ?";
+            sqlQuery += " AND city = ?";
             statement.push(city);
         }
 
