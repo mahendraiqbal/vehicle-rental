@@ -16,18 +16,18 @@ const getDataUsers = () => {
     });
 };
 
-const insertDataUsers = (body) => {
+const getUserById = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `INSERT INTO users SET ? `;
-        db.query(sqlQuery, body, (err, result) => {
-            if (err) return reject({
+        const sqlQuery = `SELECT email, address, contact, DoB, name FROM users WHERE users.id = "${id}"`
+        db.query(sqlQuery, (err, result) => {
+            if(err) return reject({
                 status: 500,
                 err
-            });
+            })
             resolve({
                 status: 200,
                 result
-            });
+            })
         });
     });
 };
@@ -66,7 +66,7 @@ const patchDataUsers = (body, id) => {
 
 module.exports = {
     getDataUsers,
-    insertDataUsers,
     deleteDataUsers,
     patchDataUsers,
+    getUserById,
 }

@@ -16,8 +16,8 @@ server.listen(port, () => {
 });
 
 const corsOptions = {
-    origin: "*",
-    allowHeaders: "x-access-token",
+    origin: "http://localhost:3000",
+    allowHeaders: ["x-access-token", "content-type"],
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
 server.use(cors(corsOptions));

@@ -2,11 +2,14 @@ const vehiclesModel = require("../models/vehicles");
 const responseHelper = require("../helpers/responseHelper");
 
 const insertDataVehicles = (req, res) => {
+    // const saveimage { body, image }
+    
     const {
         body,
     } = req;
+    const saveImage = {...body, image: req.file.filename}
     vehiclesModel
-        .insertDataVehicles(body)
+        .insertDataVehicles(saveImage)
         .then(({
             status,
             result

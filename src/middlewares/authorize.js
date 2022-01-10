@@ -19,7 +19,8 @@ const checkToken = (req, res, next) => {
 
 const roleCustomer = (req, res, next) => {
     const { roles_id } = req.userInfo;
-    if (roles_id == 1) {
+    if (roles_id === 1) {
+        console.log(roles_id);
         return next();
     }
     res.status(403).json({ err: "You're not a Customer" })
@@ -27,7 +28,7 @@ const roleCustomer = (req, res, next) => {
 
 const roleAdmin = (req, res, next) => {
     const { roles_id } = req.userInfo;
-    if (roles_id == 2) {
+    if (roles_id === 2) {
         return next();
     }
     res.status(403).json({ err: "You're not a Admin" })
@@ -35,8 +36,8 @@ const roleAdmin = (req, res, next) => {
 
 const roleOwner = (req, res, next) => {
     const { roles_id } = req.userInfo;
-    console.log(roles_id)
-    if (roles_id == 3) {
+    console.log(roles_id);
+    if (roles_id === 3) {
         return next();
     }
     res.status(403).json({ err: "You're not a Owner" })

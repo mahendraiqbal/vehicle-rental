@@ -1,10 +1,10 @@
 const db = require("../config/db");
 const mysql = require("mysql");
 
-const insertDataVehicles = (body) => {
+const insertDataVehicles = (saveImage) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `INSERT INTO vehicles SET ?`;
-        db.query(sqlQuery, body, (err, result) => {
+        db.query(sqlQuery, saveImage, (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
