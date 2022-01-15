@@ -52,6 +52,7 @@ const createNewUser = (body) => {
 const loginUser = (body) => {
     return new Promise((resolve, reject) => {
         const {
+            // id,
             email,
             password
         } = body;

@@ -18,9 +18,9 @@ const checkToken = (req, res, next) => {
 };
 
 const roleCustomer = (req, res, next) => {
-    const { roles_id } = req.userInfo;
-    if (roles_id === 1) {
-        console.log(roles_id);
+    const { roles } = req.userInfo;
+    if (roles === 1) {
+        console.log(roles);
         return next();
     }
     res.status(403).json({ err: "You're not a Customer" })

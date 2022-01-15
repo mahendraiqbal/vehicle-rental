@@ -80,7 +80,7 @@ const paginatedVehicle = (query) => {
         if (query.type && query.type.toLowerCase() == "motorbike") type = "motorbike";
         if (query.type && query.type.toLowerCase() == "bicycle") type = "bicycle";
         if (type) {
-            sqlQuery += "  type = ?";
+            sqlQuery += " WHERE type = ?";
             statement.push(type);
         }
 
