@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 const getDataUsers = () => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT name, address, contact, gender FROM users";
+        const sqlQuery = "SELECT name, email, address, contact, DoB ,gender, image FROM users";
         db.query(sqlQuery, (err, result) => {
             if (err) return reject({
                 status: 500,

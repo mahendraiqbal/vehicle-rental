@@ -48,8 +48,9 @@ const deleteDataUsers = (req, res) => {
 const patchDataUsers = (req, res) => {
   const { body } = req;
   const { id } = req.userInfo;
+  const saveImage = {...body, image: req.file.filename}
   usersModel
-    .patchDataUsers(body, id)
+    .patchDataUsers(saveImage, id)
     .then(({ status, result }) => {
       res.status(status).json({
         msg: "Data Updated",
