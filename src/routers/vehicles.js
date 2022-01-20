@@ -5,7 +5,7 @@ const authorize = require("../middlewares/authorize");
 
 const vehiclesRouter = express.Router();
 
-const upload = require("../middlewares/uploadVehicle");
+const uploadVehicle = require("../middlewares/uploadVehicle");
 
 // Vehicles Request
 
@@ -13,7 +13,7 @@ vehiclesRouter.get("/:id", vehiclesController.getByPriceId);
 
 vehiclesRouter.get("/", vehiclesController.paginatedVehicle);
 
-vehiclesRouter.post("/", authorize.checkToken, upload ,vehiclesController.insertDataVehicles);
+vehiclesRouter.post("/", authorize.checkToken, uploadVehicle ,vehiclesController.insertDataVehicles);
 
 vehiclesRouter.delete("/", authorize.checkToken ,authorize.roleOwner , vehiclesController.deleteDataVehicles);
 
