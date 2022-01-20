@@ -48,6 +48,7 @@ const deleteDataUsers = (req, res) => {
 const patchDataUsers = (req, res) => {
   const { body } = req;
   const { id } = req.userInfo;
+  // console.log(req.file.filename)
   const saveImage = {...body, image: req.file.filename}
   usersModel
     .patchDataUsers(saveImage, id)
