@@ -7,7 +7,8 @@ const insertDataVehicles = (req, res) => {
     const {
         body,
     } = req;
-    const saveImage = {...body, image: req.file.filename}
+    const saveImage = {...body, image: req.file}
+    console.log(req.file)
     vehiclesModel
         .insertDataVehicles(saveImage)
         .then(({

@@ -46,10 +46,12 @@ const uploadImage = multer({
         }
     },
     limits: { fileSize: 2 * 1024 * 1024 }
-}).single("image");
+});
+
+const single = uploadImage.single("image")
 
 const multerHandler = (req, res, next) => {
-    uploadImage(req, res, (err) => {
+    single(req, res, (err) => {
         if(err && err.code === "LIMIT_FILE_SIZE") {
            return res.status(400).json({msg: "File is too big"});
         } else if (err) {

@@ -2,10 +2,10 @@ const usersModel = require("../models/users");
 const responseHelper = require("../helpers/responseHelper");
 
 const getDataUsers = (req, res) => {
-  const { userInfo } = req;
-  console.log("[DEBUG] userInfo", userInfo);
+  const { id } = req.userInfo;
+  console.log("[DEBUG] userInfo", id);
   usersModel
-    .getDataUsers()
+    .getDataUsers(id)
     .then(({ status, result }) => {
       responseHelper.success(res, status, result);
     })
@@ -49,16 +49,27 @@ const patchDataUsers = (req, res) => {
   const { body } = req;
   const { id } = req.userInfo;
   // console.log(req.file.filename)
-  const saveImage = {...body, image: req.file.filename}
+  // const saveImage = {...body, image: req.file.filename}
+  let saveImage;
+
+  console.log(req.file)
+
+  if (req.file) {
+    saveImage = {
+      ...body,
+      image : req.file.filename
+    };
+  } else {
+    saveImage = {...body}
+  }
+
   usersModel
     .patchDataUsers(saveImage, id)
-    .then(({ status, result }) => {
+    .then(({ status }) => {
       res.status(status).json({
         msg: "Data Updated",
         result: {
-          ...body,
-          url: req.file,
-          id: result.insertId,
+          ...saveImage,
         },
       });
       // responseHelper(res, status, result);
@@ -68,9 +79,29 @@ const patchDataUsers = (req, res) => {
     });
 };
 
+const patchPasswordUsers = (req,res) => {
+  const { body } = req;
+  const { id } = req.userInfo;
+
+  usersModel
+  .patchPasswordUsers(body, id)
+  .then(({ status }) => {
+    responseHelper.success(res, status, {
+      msg: "Password Updated",
+      id,
+    });
+  })
+  .catch(({ status, err }) => {
+    if (status == 401)
+    return responseHelper.error(res, status, "Password invalid");
+    responseHelper.error(res, status, err);
+  });
+};
+
 module.exports = {
   getDataUsers,
   getUserById,
   deleteDataUsers,
   patchDataUsers,
+  patchPasswordUsers,
 };
