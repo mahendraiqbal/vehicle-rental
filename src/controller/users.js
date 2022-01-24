@@ -52,7 +52,7 @@ const patchDataUsers = (req, res) => {
   // const saveImage = {...body, image: req.file.filename}
   let saveImage;
 
-  console.log(req.file)
+  console.log(req.files)
 
   if (req.file) {
     saveImage = {

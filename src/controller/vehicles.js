@@ -2,15 +2,27 @@ const vehiclesModel = require("../models/vehicles");
 const responseHelper = require("../helpers/responseHelper");
 
 const insertDataVehicles = (req, res) => {
-    // const saveimage { body, image }
-    
-    const {
-        body,
-    } = req;
-    const saveImage = {...body, image: req.file}
-    console.log(req.file)
+    const { body, files } = req;
+    const { id } = req.userInfo;
+    // console.log(body)
+
+    const imagesVeh = files;
+    let dataImages = []
+    let newBody;
+
+    if(imagesVeh) {
+        for (let i = 0; i < imagesVeh.length; i++) {
+            dataImages.push(imagesVeh[i].filename);
+        }
+        let vehicleImages = JSON.stringify(dataImages);
+        newBody = {
+            ...body,
+            images: vehicleImages,
+        };
+    }
+
     vehiclesModel
-        .insertDataVehicles(saveImage)
+        .insertDataVehicles(newBody, id)
         .then(({
             status,
             result
@@ -18,9 +30,8 @@ const insertDataVehicles = (req, res) => {
             res.status(status).json({
                 msg: "Vehicle has been added",
                 result: {
-                    ...body,
-                    id: result.insertId,
-                    url: req.file,
+                    ...newBody,
+                    id: result.insertId
                 },
             });
         })

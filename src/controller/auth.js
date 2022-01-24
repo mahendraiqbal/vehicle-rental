@@ -21,12 +21,13 @@ const register = (req, res) => {
 
 const login = (req, res) => {
     const { body } = req;
+    // const { roles_id } = req.userInfo;
     authModel
     .loginUser(body)
     .then(({status, result}) => {
         responseHelper.success(res, status, result={
             ...body,
-            roles_id: 1,
+            // roles_id,
             result,
         })
     })

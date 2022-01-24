@@ -48,14 +48,14 @@ const uploadImage = multer({
     limits: { fileSize: 2 * 1024 * 1024 }
 });
 
-const multiple = uploadImage.array("vehicle")
+const multiple = uploadImage.array("image")
 
 const uploadMultiple = (req, res, next) => {
     multiple(req, res, (err) => {
         if(err && err.code === "LIMIT_FILE_SIZE") {
            return res.status(400).json({msg: "File is too big"});
         } else if (err) {
-            return res.status(400).json({msg: "File must type of type .jpg .png .jpeg"});
+            return res.status(400).json({msg: "File must type .jpg .png .jpeg"});
         }
         next();
     });

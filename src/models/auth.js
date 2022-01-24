@@ -54,8 +54,10 @@ const loginUser = (body) => {
         const {
             // id,
             email,
-            password
+            password,
+            // roles_id,
         } = body;
+        // const { roles_id } = req.userInfo;
         const user = `SELECT * FROM users WHERE ?`
         db.query(user, [{
             email
@@ -71,6 +73,7 @@ const loginUser = (body) => {
                 id: result[0].id,
                 name: result[0].name,
                 email: result[0].email,
+                roles_id: result[0].roles_id,
             };
             const jwtOptions = {
                 expiresIn: "10m",
@@ -80,6 +83,7 @@ const loginUser = (body) => {
             console.log(password);
             jwt.sign(payload, process.env.SECRET_KEY, jwtOptions, (err, token) => {
                 // if (payload.role === 1) return 
+                // console.log(payload)
                 if (err) return reject({
                     status: 500,
                     err
@@ -88,6 +92,7 @@ const loginUser = (body) => {
                     status: 200,
                     result: {
                         token,
+                        payload,
                     },
                 });
             });
