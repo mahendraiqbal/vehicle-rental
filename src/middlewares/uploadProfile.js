@@ -42,7 +42,7 @@ const uploadImage = multer({
             cb(null, true);
         } else {
             cb(null, false);
-            return cb(new Error("File must type of type .jpg .png .jpeg"))
+            return cb(new Error("File must type of type .jpg .png "))
         }
     },
     limits: { fileSize: 2 * 1024 * 1024 }
