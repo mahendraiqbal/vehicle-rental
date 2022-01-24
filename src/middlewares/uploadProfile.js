@@ -50,16 +50,16 @@ const uploadImage = multer({
 
 const single = uploadImage.single("image")
 
-// const multerHandler = (req, res, next) => {
-//     single(req, res, (err) => {
-//         if(err && err.code === "LIMIT_FILE_SIZE") {
-//            return res.status(400).json({msg: "File is too big"});
-//         } else if (err) {
-//             return res.status(400).json({msg: "File must type of type .jpg .png .jpeg"});
-//         }
-//         next();
-//     });
-// };
+const multerHandler = (req, res, next) => {
+    single(req, res, (err) => {
+        if(err && err.code === "LIMIT_FILE_SIZE") {
+           return res.status(400).json({msg: "File is too big"});
+        } else if (err) {
+            return res.status(400).json({msg: "File must type of type .jpg .png .jpeg"});
+        }
+        next();
+    });
+};
 
 
-module.exports = single;
+module.exports = multerHandler;
