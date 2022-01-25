@@ -62,9 +62,9 @@ const loginUser = (body) => {
         db.query(user, [{
             email
         }], (err, result) => {
-            // console.log(result[0].id);
-            // console.log(body.password);
-            // console.log(result[0].password);
+            console.log(result[0].id);
+            console.log(body.password);
+            console.log(result[0].password);
             // var id = result[0].id;
             bcrypt.compare(body.password, result[0].password, (err, result) => {
                 // console.log(result);
