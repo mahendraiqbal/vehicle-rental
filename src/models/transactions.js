@@ -53,10 +53,10 @@ const deleteDataTransactions = (id) => {
 
 const getPopularVehicle = () => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.brand, vehicles.city, vehicles.images
+    const sqlQuery = `SELECT COUNT(transactions.vehicle_id) AS jumlah, vehicles.brand, vehicles.city, vehicles.image
 FROM transactions
 INNER JOIN vehicles ON transactions.vehicle_id = vehicles.id
-GROUP BY vehicles.brand, vehicles.city, vehicles.images
+GROUP BY vehicles.brand, vehicles.city, vehicles.image
 ORDER BY COUNT(transactions.vehicle_id) DESC
 LIMIT 4;`;
     db.query(sqlQuery, (err, result) => {
