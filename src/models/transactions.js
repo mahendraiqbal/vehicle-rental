@@ -57,7 +57,8 @@ const getPopularVehicle = () => {
 FROM transactions
 INNER JOIN vehicles ON transactions.vehicle_id = vehicles.id
 GROUP BY vehicles.brand, vehicles.city, vehicles.images
-ORDER BY COUNT(transactions.vehicle_id) DESC;`;
+ORDER BY COUNT(transactions.vehicle_id) DESC
+LIMIT 4;`;
     db.query(sqlQuery, (err, result) => {
       if (err)
         return reject({
