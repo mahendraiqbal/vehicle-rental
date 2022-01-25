@@ -62,7 +62,7 @@ const loginUser = (body) => {
         db.query(user, [{
             email
         }], (err, result) => {
-            console.log(result[0].id);
+            // console.log(result[0].id);
             console.log(body.password);
             console.log(result[0].password);
             // var id = result[0].id;
