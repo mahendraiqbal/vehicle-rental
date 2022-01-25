@@ -62,12 +62,13 @@ const loginUser = (body) => {
         db.query(user, [{
             email
         }], (err, result) => {
-            console.log(result[0].id);
-            console.log(body.password);
-            console.log(result[0].password);
+            // console.log(result[0].id);
+            // console.log(body.password);
+            // console.log(result[0].password);
             // var id = result[0].id;
             bcrypt.compare(body.password, result[0].password, (err, result) => {
-                console.log(result);
+                // console.log(result);
+                return result
             });
             const payload = {
                 id: result[0].id,
@@ -79,7 +80,7 @@ const loginUser = (body) => {
                 expiresIn: "10m",
                 issuer: process.env.ISSUER,
             };
-            // console.log(result);
+            console.log(result);
             console.log(password);
             jwt.sign(payload, process.env.SECRET_KEY, jwtOptions, (err, token) => {
                 // if (payload.role === 1) return 
