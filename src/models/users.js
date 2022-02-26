@@ -49,10 +49,10 @@ const deleteDataUsers = (id) => {
     });
 };
 
-const patchDataUsers = (body, id) => {
+const patchDataUsers = (saveImage, id) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `UPDATE users SET ? WHERE id = ?`;
-        db.query(sqlQuery, [body, id], (err, result) => {
+        db.query(sqlQuery, [saveImage, id], (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
