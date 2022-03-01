@@ -48,6 +48,7 @@ const deleteDataUsers = (req, res) => {
 const patchDataUsers = (req, res) => {
   const { body } = req;
   const { id } = req.userInfo;
+  // console.log('body', body);
   // console.log(req.file.filename)
   // const saveImage = {...body, image: req.file.filename}
   let saveImage;
@@ -57,7 +58,7 @@ const patchDataUsers = (req, res) => {
   if (req.file) {
     saveImage = {
       ...body,
-      image : req.file.filename
+      image : req.file.filename,
     };
   } else {
     saveImage = {...body}

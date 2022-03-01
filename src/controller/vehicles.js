@@ -4,7 +4,8 @@ const responseHelper = require("../helpers/responseHelper");
 const insertDataVehicles = (req, res) => {
     const { body, files } = req;
     const { id } = req.userInfo;
-    // console.log(body)
+    console.log(body);
+    console.log(files);
 
     const imagesVeh = files;
     let dataImages = []
