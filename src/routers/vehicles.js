@@ -17,6 +17,6 @@ vehiclesRouter.post("/", authorize.checkToken, uploadVehicle ,vehiclesController
 
 vehiclesRouter.delete("/", authorize.checkToken ,authorize.roleOwner , vehiclesController.deleteDataVehicles);
 
-vehiclesRouter.patch("/:id", authorize.checkToken ,authorize.roleOwner || authorize.roleAdmin, vehiclesController.patchDataVehicles);
+vehiclesRouter.patch("/:id", authorize.checkToken ,vehiclesController.patchDataVehicles);
 
 module.exports = vehiclesRouter;

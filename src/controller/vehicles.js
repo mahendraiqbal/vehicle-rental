@@ -72,9 +72,27 @@ const deleteDataVehicles = (req, res) => {
 };
 
 const patchDataVehicles = (req, res) => {
-    const { body } = req;
-    const { id } = req.userInfo;
-    vehiclesModel.patchDataVehicles(body, id)
+    const { body, params, files } = req;
+    // const { id } = req.userInfo;
+    const id = params.id;
+    const imagesVeh = files;
+    let dataImages = []
+    let newBody;
+
+    if (req.files) {
+        for (let i = 0; i < imagesVeh.length; i++) {
+            dataImages.push(imagesVeh[i].filename);
+        }
+        let vehicleImages = JSON.stringify(dataImages);
+        newBody = {
+            ...body,
+            images: vehicleImages,
+        };
+    } else {
+        newBody = {...body, id: id};
+    }
+
+    vehiclesModel.patchDataVehicles(newBody, id)
         .then(({
             status,
             result
@@ -82,7 +100,7 @@ const patchDataVehicles = (req, res) => {
             res.status(status).json({
                 msg: "Data Updated",
                 result: {
-                    ...body,
+                    ...newBody,
                     url: req.file,
                     id: result.insertId,
                 },

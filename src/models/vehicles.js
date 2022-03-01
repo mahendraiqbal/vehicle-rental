@@ -38,10 +38,10 @@ const deleteDataVehicles = (id) => {
     });
 };
 
-const patchDataVehicles = (body, id) => {
+const patchDataVehicles = (newBody, id) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `UPDATE vehicles SET ? WHERE id = ?`;
-        db.query(sqlQuery, [body, id], (err, result) => {
+        db.query(sqlQuery, [newBody, id], (err, result) => {
             if (err) return reject({
                 status: 500,
                 err
