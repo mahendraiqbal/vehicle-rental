@@ -13,7 +13,7 @@ vehiclesRouter.get("/:id", vehiclesController.getByPriceId);
 
 vehiclesRouter.get("/", vehiclesController.paginatedVehicle);
 
-vehiclesRouter.post("/", uploadVehicle ,vehiclesController.insertDataVehicles);
+vehiclesRouter.post("/", authorize.checkToken, uploadVehicle ,vehiclesController.insertDataVehicles);
 
 vehiclesRouter.delete("/", authorize.checkToken ,authorize.roleOwner , vehiclesController.deleteDataVehicles);
 

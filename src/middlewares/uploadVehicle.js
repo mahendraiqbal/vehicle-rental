@@ -43,10 +43,10 @@ const uploadImage = multer({
       return cb(new Error("File must type of type .jpg .png .jpeg"));
     }
   },
-  limits: { fileSize: 2 * 1024 * 1024 }
+//   limits: { fileSize: 2 * 1024 * 1024 }
 });
 
-const multiple = uploadImage.array("image", 3);
+const multiple = uploadImage.array("images", 3);
 
 const uploadMultiple = (req, res, next) => {
   multiple(req, res, (err) => {
