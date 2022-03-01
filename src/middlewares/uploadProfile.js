@@ -35,7 +35,6 @@ const uploadImage = multer({
     storage,
     fileFilter: (req, file, cb) => {
         if (
-            console.log(file.mimetype),
             file.mimetype == "image/png" || 
             file.mimetype == "image/jpg" || 
             file.mimetype == "image/jpeg"
