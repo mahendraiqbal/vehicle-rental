@@ -56,7 +56,7 @@ const patchDataVehicles = (newBody, id) => {
 
 const getByPriceId = (vehicleId) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = `SELECT brand, name, price
+        const sqlQuery = `SELECT brand, name, price, type, city, images, id, capacity
         FROM vehicles 
         WHERE vehicles.id = "${vehicleId}"`
         db.query(sqlQuery, (err, result) => {
