@@ -3,7 +3,7 @@ const responseHelper = require("../helpers/responseHelper");
 
 const insertDataVehicles = (req, res) => {
     const { body, files } = req;
-    const { id } = req.userInfo;
+    // const { id } = req.userInfo;
     console.log('body', body);
     console.log('files', files);
 
@@ -23,7 +23,7 @@ const insertDataVehicles = (req, res) => {
     }
 
     vehiclesModel
-        .insertDataVehicles(newBody, id)
+        .insertDataVehicles(newBody)
         .then(({
             status,
             result
