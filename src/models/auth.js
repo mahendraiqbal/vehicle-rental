@@ -90,7 +90,19 @@ const loginUser = (body) => {
     });
 };
 
+const logoutUser = (token) => {
+  return new Promise((resolve, reject) => {
+    const sqlQuery = 'INSERT INTO blacklist_token (token) VALUES (?)';
+
+    db.query(sqlQuery, [token], (err, result) => {
+      if (err) return reject({ status: 500, err });
+      resolve({ status: 200, result });
+    })
+  })
+}
+
 module.exports = {
   createNewUser,
   loginUser,
+  logoutUser,
 };
