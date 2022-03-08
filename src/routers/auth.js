@@ -7,6 +7,6 @@ const authorize = require("../middlewares/authorize")
 
 authRouter.post("/", authController.login)
 authRouter.post("/new", validate.register, authController.register);
-authRouter.delete("/", authorize.checkToken, authController.logout);
+authRouter.delete("/logout", authorize.checkToken, authController.logout);
 
 module.exports = authRouter;
