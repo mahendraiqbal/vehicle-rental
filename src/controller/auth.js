@@ -39,7 +39,7 @@ const logout = (req, res) => {
     .logoutUser(token)
     .then(({ status }) => {
       return responseHelper.success(res, status, {
-        msg: "Logout successful",
+        msg: "Success",
       });
     })
     .catch(({ status, err }) => {
