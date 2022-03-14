@@ -73,10 +73,10 @@ LIMIT 4;`;
   });
 };
 
-const getDataTransactionsById = (user_id) => {
+const getDataTransactionsById = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT * FROM transactions WHERE user_id = ?";
-        db.query(sqlQuery, user_id, (err, result) => {
+        const sqlQuery = "SELECT * FROM transactions WHERE id = ?";
+        db.query(sqlQuery, id, (err, result) => {
             if (err) return reject({
                 status: 500,
                 err

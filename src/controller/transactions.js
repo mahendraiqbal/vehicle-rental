@@ -85,9 +85,9 @@ const getPopularVehicle = (req, res) => {
 };
 
 const getDataTransactionsById = (req, res) => {
-  const { user_id } = req.userInfo;
+  const { id } = req.userInfo;
   transactionsModel
-    .getDataTransactionsById(user_id)
+    .getDataTransactionsById(id)
     .then(({ status, result }) => {
       responseHelper.success(res, status, result);
     })
