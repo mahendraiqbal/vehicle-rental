@@ -86,9 +86,9 @@ const getPopularVehicle = (req, res) => {
 
 const getDataTransactionsById = (req, res) => {
     const {params} = req;
-  const id = params.id;
+  const transactionId = params.id;
   transactionsModel
-    .getDataTransactionsById(id)
+    .getDataTransactionsById(transactionId)
     .then(({ status, result }) => {
       responseHelper.success(res, status, result);
     })
