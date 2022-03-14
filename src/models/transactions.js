@@ -79,7 +79,8 @@ const getDataTransactionsById = (id) => {
 from transactions
 inner join users ON transactions.user_id = users.id
 inner join vehicles ON transactions.vehicle_id = vehicles.id
-where users.id = ?`;
+where users.id = ?
+ORDER BY transactions.id DESC`;
         db.query(sqlQuery,id, (err, result) => {
             if (err) return reject({
                 status: 500,
