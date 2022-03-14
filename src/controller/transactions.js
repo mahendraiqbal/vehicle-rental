@@ -84,9 +84,22 @@ const getPopularVehicle = (req, res) => {
         });
 };
 
+const getDataTransactionsById = (req, res) => {
+  const { user_id } = req.userInfo;
+  transactionsModel
+    .getDataUsers(user_id)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, result);
+    })
+    .catch(({ status, err }) => {
+      responseHelper.error(res, status, err);
+    });
+};
+
 module.exports = {
     getDataTransactions,
     insertDataTransactions,
     deleteDataTransactions,
     getPopularVehicle,
+    getDataTransactionsById,
 }

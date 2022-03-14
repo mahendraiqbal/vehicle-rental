@@ -15,4 +15,6 @@ transactionsRouter.post("/", transactionsController.insertDataTransactions);
 
 transactionsRouter.delete("/", authorize.roleAdmin ,transactionsController.deleteDataTransactions);
 
+transactionsRouter.get("/byId", authorize.checkToken ,transactionsController.getDataTransactionsById);
+
 module.exports = transactionsRouter;

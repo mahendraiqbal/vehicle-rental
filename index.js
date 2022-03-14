@@ -16,7 +16,7 @@ server.listen(port, () => {
 });
 
 const corsOptions = {
-    origin: ["http://localhost:3000", "https://vehicles-rental-react.netlify.app"],
+    origin: ["http://localhost:3000", "https://vehicles-rental-react.netlify.app", "http://localhost:8081", "http://192.168.43.225:8080"],
     allowHeaders: ["x-access-token", "content-type"],
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
 };

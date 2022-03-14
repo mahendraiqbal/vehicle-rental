@@ -73,9 +73,26 @@ LIMIT 4;`;
   });
 };
 
+const getDataTransactionsById = (user_id) => {
+    return new Promise((resolve, reject) => {
+        const sqlQuery = "SELECT * FROM transactions WHERE user_id = ?";
+        db.query(sqlQuery, user_id, (err, result) => {
+            if (err) return reject({
+                status: 500,
+                err
+            });
+            resolve({
+                status: 200,
+                result
+            })
+        });
+    });
+};
+
 module.exports = {
   getDataTransactions,
   insertDataTransactions,
   deleteDataTransactions,
   getPopularVehicle,
+  getDataTransactionsById,
 };
