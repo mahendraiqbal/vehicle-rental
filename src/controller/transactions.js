@@ -85,16 +85,16 @@ const getPopularVehicle = (req, res) => {
 };
 
 const getDataTransactionsById = (req, res) => {
-    const {params} = req;
-  const transactionId = params.id;
-  transactionsModel
-    .getDataTransactionsById(transactionId)
-    .then(({ status, result }) => {
-      responseHelper.success(res, status, result);
-    })
-    .catch(({ status, err }) => {
-      responseHelper.error(res, status, err);
-    });
+    const { id } = req.userInfo;
+    console.log("[DEBUG] userInfo", id);
+    transactionsModel
+        .getDataTransactionsById(id)
+        .then(({ status, result }) => {
+            responseHelper.success(res, status, result);
+        })
+        .catch(({ status, err }) => {
+            responseHelper.error(res, status, err);
+        });
 };
 
 module.exports = {
