@@ -97,7 +97,7 @@ const paginatedVehicle = (query) => {
         if (query.city && query.city.toLowerCase() == "yogyakarta") city = "yogyakarta";
         if (query.city && query.city.toLowerCase() == "wonosobo") city = "wonosobo";
         if (city) {
-            sqlQuery += " AND city = ?";
+            sqlQuery += " WHERE city = ?";
             statement.push(city);
         }
 
