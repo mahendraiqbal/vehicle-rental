@@ -90,12 +90,12 @@ const paginatedVehicle = (query) => {
         }
 
         let city = "";
-        if (query.city && query.city.toLowerCase() == "temanggung") city = "Temanggung";
-        if (query.city && query.city.toLowerCase() == "magelang") city = "Magelang";
-        if (query.city && query.city.toLowerCase() == "parakan") city = "Parakan";
-        if (query.city && query.city.toLowerCase() == "klaten") city = "Klaten";
-        if (query.city && query.city.toLowerCase() == "yogyakarta") city = "Yogyakarta";
-        if (query.city && query.city.toLowerCase() == "wonosobo") city = "Wonosobo";
+        if (query.city && query.city.toLowerCase() == "temanggung") city = "temanggung";
+        if (query.city && query.city.toLowerCase() == "magelang") city = "magelang";
+        if (query.city && query.city.toLowerCase() == "parakan") city = "parakan";
+        if (query.city && query.city.toLowerCase() == "klaten") city = "klaten";
+        if (query.city && query.city.toLowerCase() == "yogyakarta") city = "yogyakarta";
+        if (query.city && query.city.toLowerCase() == "wonosobo") city = "wonosobo";
         if (city) {
             sqlQuery += " AND city = ?";
             statement.push(city);
