@@ -71,7 +71,7 @@ const loginUser = (body) => {
                 };
                 console.log(payload)
                 const jwtOptions = {
-                    expiresIn: "10h",
+                    expiresIn: "10d",
                     issuer: process.env.ISSUER,
                 }
                 jwt.sign(payload, process.env.SECRET_KEY, jwtOptions, (err, token) => {

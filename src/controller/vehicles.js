@@ -136,7 +136,7 @@ const paginatedVehicle = (req, res) => {
     const { query } = req;
     const order = query.order;
     let keyword = "";
-    if (query.name) keyword = `%${query.name}`
+    if (query.name) keyword = `%${query.name}%`
     vehiclesModel.paginatedVehicle(query, keyword, order)
         .then(({
             status,
