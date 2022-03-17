@@ -47,8 +47,44 @@ const logout = (req, res) => {
     });
 };
 
+const forgotPassword = (req, res) => {
+  const { body } = req;
+
+  authModel
+    .forgotPassword(body)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, {
+        msg: "OTP",
+        data: result,
+      });
+    })
+    .catch(({ status, err }) => {
+      console.log(err);
+      responseHelper.error(res, status, err);
+    });
+};
+
+const checkOTP = (req, res) => {
+  const { body } = req;
+
+  authModel
+    .checkOTP(body)
+    .then(({ status, result }) => {
+      responseHelper.success(res, status, {
+        msg: "OTP is valid",
+        data: result
+      });
+    })
+    .catch(({ status, err }) => {
+      console.log(err);
+      responseHelper.error(res, status, err);
+    });
+};
+
 module.exports = {
     register,
     login,
     logout,
+    forgotPassword,
+    checkOTP,
 };

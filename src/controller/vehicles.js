@@ -134,7 +134,10 @@ const getByPriceId = (req, res) => {
 
 const paginatedVehicle = (req, res) => {
     const { query } = req;
-    vehiclesModel.paginatedVehicle(query)
+    const order = query.order;
+    let keyword = "";
+    if (query.name) keyword = `%${query.name}`
+    vehiclesModel.paginatedVehicle(query, keyword, order)
         .then(({
             status,
             result
@@ -149,6 +152,22 @@ const paginatedVehicle = (req, res) => {
         });
 };
 
+const addFavorite = (req, res) => {
+    const { body } = req;
+    vehiclesModel.addFavorite(body)
+        .then(({
+            status,
+            result
+        }) => {
+            responseHelper.success(res, status, result);
+        })
+        .catch(({
+            status,
+            err
+        }) => {
+            responseHelper.error(res, status, err)
+        });
+};
 
 module.exports = {
     insertDataVehicles,
@@ -156,4 +175,5 @@ module.exports = {
     patchDataVehicles,
     getByPriceId,
     paginatedVehicle,
+    addFavorite,
 };

@@ -97,12 +97,60 @@ const logoutUser = (token) => {
     db.query(sqlQuery, [token], (err, result) => {
       if (err) return reject({ status: 500, err });
       resolve({ status: 200, result });
-    })
-  })
-}
+    });
+  });
+};
+
+const forgotPassword = (body) => {
+  return new Promise((resolve, reject) => {
+    const { email } = body;
+    const sqlQuery = `SELECT * FROM users WHERE email = ?`;
+
+    db.query(sqlQuery, [email], (err, result) => {
+      if (err) return reject({ status: 500, err });
+      if (result.length == 0)
+        return reject({
+          status: 401,
+          result: { errMsg: "Invalid Email" },
+        });
+
+      const otp = Math.ceil(Math.random() * 1000000);
+      console.log("OTP ", otp);
+
+      const sqlQuery = `UPDATE users SET otp = ? WHERE email = ?`;
+      db.query(sqlQuery, [otp, email], (err) => {
+        if (err) return reject({ status: 500, err });
+        const data = {
+          email: email,
+        };
+
+        resolve({ status: 200, result: data });
+      });
+    });
+  });
+};
+
+const checkOTP = (body) => {
+  return new Promise((resolve, reject) => {
+    const { email, otp } = body;
+    const sqlQuery = `SELECT email, otp FROM users WHERE email = ? AND otp = ?`;
+
+    db.query(sqlQuery, [email, otp], (err, result) => {
+      if (err) return reject({ status: 500, err });
+      if (result.length === 0)
+        return reject({ status: 401, err: "Invalid OTP" });
+      const data = {
+        email: email,
+      };
+      resolve({ status: 200, result: data });
+    });
+  });
+};
 
 module.exports = {
   createNewUser,
   loginUser,
   logoutUser,
+  forgotPassword,
+  checkOTP,
 };

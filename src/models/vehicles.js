@@ -72,10 +72,14 @@ const getByPriceId = (vehicleId) => {
     });
 };
 
-const paginatedVehicle = (query) => {
+const paginatedVehicle = (query, keyword) => {
     return new Promise((resolve, reject) => {
         let sqlQuery = `SELECT * FROM vehicles`;
         const statement = [];
+        let data = "";
+        let page = parseInt(query.page);
+        let limit = parseInt(query.limit);
+        let offset = "";
 
         // logika buat where
         
@@ -84,10 +88,10 @@ const paginatedVehicle = (query) => {
         if (query.type && query.type.toLowerCase() == "car") type = "car";
         if (query.type && query.type.toLowerCase() == "motorbike") type = "motorbike";
         if (query.type && query.type.toLowerCase() == "bicycle") type = "bicycle";
-        if (type) {
-            sqlQuery += " WHERE type = ?";
-            statement.push(type);
-        }
+        // if (type) {
+        //     sqlQuery += " WHERE type = ?";
+        //     statement.push(type);
+        // }
 
         let city = "";
         if (query.city && query.city.toLowerCase() == "temanggung") city = "temanggung";
@@ -96,9 +100,29 @@ const paginatedVehicle = (query) => {
         if (query.city && query.city.toLowerCase() == "klaten") city = "klaten";
         if (query.city && query.city.toLowerCase() == "yogyakarta") city = "yogyakarta";
         if (query.city && query.city.toLowerCase() == "wonosobo") city = "wonosobo";
-        if (city) {
-            sqlQuery += " WHERE city = ?";
+        // if (city) {
+        //     sqlQuery += " AND city = ?";
+        //     statement.push(city);
+        // }
+
+        if (type && city) {
+            sqlQuery += ` WHERE type = ? AND city = ?`;
+            statement.push(type, city);
+            data += `&type=${type}&city=${city}`;
+        } else if (type) {
+            sqlQuery += ` WHERE type = ?`;
+            statement.push(type);
+            data += `&type=${type}`;
+        } else if (city) {
+            sqlQuery += ` WHERE city = ?`;
             statement.push(city);
+            data += `&city=${city}`;
+        }
+
+        if (keyword) {
+            sqlQuery += ` AND name LIKE ?`;
+            statement.push(keyword);
+            data += `&name=${query.name}`;
         }
 
         const order = query.order;
@@ -118,20 +142,31 @@ const paginatedVehicle = (query) => {
                 err
             });
 
-            const page = parseInt(query.page);
-            const limit = parseInt(query.limit);
+            // const page = parseInt(query.page);
+            // const limit = parseInt(query.limit);
             const count = result[0].count;
-            if (query.page && query.limit) {
+
+            if (!query.page && !query.limit) {
+                page = 1;
+                limit = 1000;
+                offset = 0;
                 sqlQuery += " LIMIT ? OFFSET ?";
-                const offset = (page - 1) * limit;
+                statement.push(limit, offset);
+            } else {
+                sqlQuery += " LIMIT ? OFFSET ?";
+                offset = (page - 1) * limit;
                 statement.push(limit, offset);
             }
-            const meta = {
-                next: page == Math.ceil(count / limit) ? null : `/vehicles?type=${type}&city=${city}&by=${orderBy}&order=${order}&page=${page + 1}&limit=3`,
-                prev: page == 1 ? null : `/vehicles?type=${type}&city=${city}&by=${orderBy}&order=${order}&page=${page - 1}&limit=3`,
-                count: result[0].count,
-            };
 
+            const meta = {
+                count,
+                next:
+                    page == Math.ceil(count / limit)
+                    ? null
+                    : `/vehicles?page=${page + 1}&limit=${limit}` + data,
+                page:
+                    page == 1 ? null : `/vehicles?page=${page -1}&limit=${limit}` + data,
+            };
             db.query(sqlQuery, statement, (err, result) => {
                 if (err) return reject({
                     status: 500,
@@ -149,10 +184,28 @@ const paginatedVehicle = (query) => {
     });
 };
 
+const addFavorite = (body) => {
+  return new Promise((resolve, reject) => {
+    const sqlQuery = `INSERT INTO vehicles SET ?`;
+    db.query(sqlQuery, body, (err, result) => {
+      if (err)
+        return reject({
+          status: 500,
+          err,
+        });
+      resolve({
+        status: 200,
+        result,
+      });
+    });
+  });
+};
+
 module.exports = {
     insertDataVehicles,
     deleteDataVehicles,
     patchDataVehicles,
     getByPriceId,
     paginatedVehicle,
+    addFavorite,
 };

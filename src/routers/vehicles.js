@@ -13,10 +13,12 @@ vehiclesRouter.get("/:id", vehiclesController.getByPriceId);
 
 vehiclesRouter.get("/", vehiclesController.paginatedVehicle);
 
-vehiclesRouter.post("/", authorize.checkToken, uploadVehicle ,vehiclesController.insertDataVehicles);
+vehiclesRouter.post("/", authorize.checkToken, authorize.roleOwner, uploadVehicle ,vehiclesController.insertDataVehicles);
 
 vehiclesRouter.delete("/", authorize.checkToken ,authorize.roleOwner , vehiclesController.deleteDataVehicles);
 
-vehiclesRouter.patch("/:id", authorize.checkToken , uploadVehicle, vehiclesController.patchDataVehicles);
+vehiclesRouter.patch("/:id", authorize.checkToken, authorize.roleOwner, uploadVehicle, vehiclesController.patchDataVehicles);
+
+vehiclesRouter.post("/favorite", authorize.checkToken, authorize.roleCustomer, vehiclesController.addFavorite)
 
 module.exports = vehiclesRouter;
