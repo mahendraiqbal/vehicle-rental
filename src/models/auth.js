@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const db = require("../config/db");
+const { sendForgotPass } = require("../helpers/sendForgotPass")
 
 const createNewUser = (body) => {
   return new Promise((resolve, reject) => {
@@ -114,8 +115,10 @@ const forgotPassword = (body) => {
           result: { errMsg: "Invalid Email" },
         });
 
+      const name = result[0].display_name;
       const otp = Math.ceil(Math.random() * 1000000);
-      console.log("OTP ", otp);
+      // console.log("OTP ", otp);
+      sendForgotPass(email, { name: name, otp });
 
       const sqlQuery = `UPDATE users SET otp = ? WHERE email = ?`;
       db.query(sqlQuery, [otp, email], (err) => {
