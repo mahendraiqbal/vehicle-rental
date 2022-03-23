@@ -54,7 +54,7 @@ const forgotPassword = (req, res) => {
     .forgotPassword(body)
     .then(({ status, result }) => {
       responseHelper.success(res, status, {
-        msg: "OTP",
+        msg: "OTP sent succesfully",
         data: result,
       });
     })

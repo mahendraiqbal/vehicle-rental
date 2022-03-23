@@ -110,23 +110,19 @@ const forgotPassword = (body) => {
     db.query(sqlQuery, [email], (err, result) => {
       if (err) return reject({ status: 500, err });
       if (result.length == 0)
-        return reject({
-          status: 401,
-          result: { errMsg: "Invalid Email" },
-        });
-
+        return reject({ status: 401, err: "Email is invalid" });
+      // console.log("result", result[0].phone);
       const name = result[0].display_name;
       const otp = Math.ceil(Math.random() * 1000000);
       // console.log("OTP ", otp);
       sendForgotPass(email, { name: name, otp });
-
       const sqlQuery = `UPDATE users SET otp = ? WHERE email = ?`;
+
       db.query(sqlQuery, [otp, email], (err) => {
         if (err) return reject({ status: 500, err });
         const data = {
           email: email,
         };
-
         resolve({ status: 200, result: data });
       });
     });
