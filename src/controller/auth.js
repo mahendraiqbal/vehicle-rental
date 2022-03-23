@@ -81,10 +81,28 @@ const checkOTP = (req, res) => {
     });
 };
 
+const resetPassword = (req, res) => {
+  const { body } = req;
+
+  authModel
+    .resetPassword(body)
+    .then(({ status }) => {
+      responseHelper.success(res, status, {
+        msg: "Password updated successfully",
+        data: body.email,
+      });
+    })  
+    .catch(({ status, err }) => {
+      console.log(err)
+      responseHelper.error(res, status, err);
+    });
+};
+
 module.exports = {
     register,
     login,
     logout,
     forgotPassword,
     checkOTP,
+    resetPassword
 };
