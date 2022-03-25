@@ -128,8 +128,9 @@ const loginUser = (body) => {
               if (err) return reject({ status: 500, err });
               const data = {
                 token,
-                image: result[0].image,
-                roles_id: payload.roles,
+                // image: result[0].image,
+                // roles_id: result[0].roles_id,
+                payload,
               };
               resolve({ status: 200, result: data });
             }
