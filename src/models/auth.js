@@ -114,7 +114,7 @@ const loginUser = (body) => {
         if (checkPassword) {
           const payload = {
             id: result[0].id,
-            roles_id: result[0].roles,
+            roles_id: result[0].roles_id,
           };
           const jwtOptions = {
             expiresIn: "1d",
