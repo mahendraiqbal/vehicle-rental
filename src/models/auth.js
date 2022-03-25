@@ -129,7 +129,7 @@ const loginUser = (body) => {
               const data = {
                 token,
                 image: result[0].image,
-                // roles_id: result[0].roles_id,
+                roles_id: payload.roles_id,
                 payload,
               };
               resolve({ status: 200, result: data });
