@@ -25,7 +25,10 @@ const login = (req, res) => {
     authModel
     .loginUser(body)
     .then(({status, result}) => {
-        responseHelper.success(res, status, result)
+        responseHelper.success(res, status, {
+          msg: "Login Succesfull",
+          data: result,
+        })
     })
     .catch(({status, err}) => {
         responseHelper.error(res, status, err)
