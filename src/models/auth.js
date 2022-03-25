@@ -130,7 +130,7 @@ const loginUser = (body) => {
                 token,
                 image: result[0].image,
                 roles_id: payload.roles_id,
-                payload,
+                id: payload.id,
               };
               resolve({ status: 200, result: data });
             }
