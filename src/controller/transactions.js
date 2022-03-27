@@ -19,11 +19,10 @@ const getDataTransactions = (req, res) => {
 };
 
 const insertDataTransactions = (req, res) => {
-    const {
-        body,
-    } = req;
+    const { body, id } = req;
+    console.log('cek id', id);
     transactionsModel
-        .insertDataTransactions(body)
+        .insertDataTransactions(body, id)
         .then(({
             status,
             result

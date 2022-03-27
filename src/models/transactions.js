@@ -17,9 +17,9 @@ const getDataTransactions = () => {
   });
 };
 
-const insertDataTransactions = (body) => {
+const insertDataTransactions = (body, id) => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = `INSERT INTO transactions SET ?`;
+    const sqlQuery = `INSERT INTO transactions SET ? WHERE users_id = ${id}`;
     db.query(sqlQuery, body, (err, result) => {
       if (err)
         return reject({
