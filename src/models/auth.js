@@ -165,7 +165,7 @@ const forgotPassword = (body) => {
       if (err) return reject({ status: 500, err });
       if (result.length == 0)
         return reject({ status: 401, err: "Email is invalid" });
-      // console.log("result", result[0].phone);
+      console.log("result", result);
       const name = result[0].display_name;
       const otp = Math.ceil(Math.random() * 1000000);
       // console.log("OTP ", otp);
