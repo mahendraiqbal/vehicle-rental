@@ -4,21 +4,21 @@ const jwt = require("jsonwebtoken");
 const db = require("../config/db");
 const { sendForgotPass } = require("../helpers/sendForgotPass")
 
-const createNewUser = (body) => {
+const createNewUser = (body, email) => {
   return new Promise((resolve, reject) => {
     // check email duplicate
-    // const emailDuplicated = `SELECT email FROM users WHERE email = ${body.email}`
-    // db.query(emailDuplicated, (err, result) => {
-    //     if (err) return reject({
-    //         status: 500,
-    //         err
-    //     });
-    //     if (result.length >= 1)
-    //         return reject({
-    //             status: 400,
-    //             err: "Email Duplicated"
-    //         })
-    // })
+    const emailDuplicated = `SELECT email FROM users WHERE email = ?`
+    db.query(emailDuplicated, [email], (err, result) => {
+        if (err) return reject({
+            status: 500,
+            err
+        });
+        if (result.length >= 1)
+            return reject({
+                status: 400,
+                err: "Email Duplicated"
+            })
+    })
 
     const sqlQuery = "INSERT INTO users SET ?";
     bcrypt

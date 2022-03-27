@@ -2,10 +2,9 @@ const authModel = require("../models/auth");
 const responseHelper = require("../helpers/responseHelper");
 
 const register = (req, res) => {
-    const {
-        body
-    } = req;
-    authModel.createNewUser(body)
+    const { body } = req;
+    const email = body.email;
+    authModel.createNewUser(body, email)
         .then(({ status, result }) => {
             const objResponse = {
                 id: result.insertId,
@@ -15,6 +14,8 @@ const register = (req, res) => {
             responseHelper.success(res, status, objResponse);
         })
         .catch(({ status, err }) => {
+            console.log(err);
+            if (status == 400) return responseHelper.error(res, status, err);
             responseHelper.error(res, status, err);
         });
 };
