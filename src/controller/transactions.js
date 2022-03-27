@@ -19,7 +19,8 @@ const getDataTransactions = (req, res) => {
 };
 
 const insertDataTransactions = (req, res) => {
-    const { body
+    const {
+        body
     } = req;
     transactionsModel
         .insertDataTransactions(body)
