@@ -77,7 +77,7 @@ const getDataTransactionsById = (id) => {
     return new Promise((resolve, reject) => {
         const sqlQuery = `select transactions.payment_methods AS methods, transactions.return_date AS back, users.id AS user_id, vehicles.name AS Name_Vehicle, vehicles.price AS Vehicle_Price
 from transactions
-inner join users ON transactions.user_id = users.id
+inner join users ON transactions.user_id = ${id}
 inner join vehicles ON transactions.vehicle_id = vehicles.id
 where users.id = ${id}`;
         db.query(sqlQuery,id, (err, result) => {
