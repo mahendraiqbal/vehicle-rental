@@ -176,6 +176,7 @@ const forgotPassword = (body) => {
         if (err) return reject({ status: 500, err });
         const data = {
           email: email,
+          name: name,
         };
         resolve({ status: 200, result: data });
       });
