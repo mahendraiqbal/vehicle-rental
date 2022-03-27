@@ -11,7 +11,7 @@ transactionsRouter.get("/", transactionsController.getDataTransactions);
 
 transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
 
-transactionsRouter.post("/", authorize.checkToken ,transactionsController.insertDataTransactions);
+transactionsRouter.post("/", transactionsController.insertDataTransactions);
 
 transactionsRouter.delete("/", authorize.roleAdmin ,transactionsController.deleteDataTransactions);
 
