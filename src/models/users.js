@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const getDataUsers = (id) => {
     return new Promise((resolve, reject) => {
-        const sqlQuery = "SELECT name, email, address, contact, DoB ,gender, image FROM users WHERE id = ?";
+        const sqlQuery = "SELECT name, email, address, contact, DoB ,gender, image, id FROM users WHERE id = ?";
         db.query(sqlQuery, id, (err, result) => {
             if (err) return reject({
                 status: 500,
