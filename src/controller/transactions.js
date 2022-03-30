@@ -45,11 +45,8 @@ const insertDataTransactions = (req, res) => {
 };
 
 const deleteDataTransactions = (req, res) => {
-    const {
-        body: {
-            id,
-        },
-    } = req;
+    const { params } = req;
+    const id = params.id;
     transactionsModel.deleteDataTransactions(id)
         .then(({
             status,
