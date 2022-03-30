@@ -13,7 +13,7 @@ transactionsRouter.get("/popular", transactionsController.getPopularVehicle);
 
 transactionsRouter.post("/", transactionsController.insertDataTransactions);
 
-transactionsRouter.delete("/", transactionsController.deleteDataTransactions);
+transactionsRouter.delete("/:id", transactionsController.deleteDataTransactions);
 
 transactionsRouter.get("/byId", authorize.checkToken ,transactionsController.getDataTransactionsById);
 
