@@ -34,9 +34,9 @@ const insertDataTransactions = (body) => {
   });
 };
 
-const deleteDataTransactions = (id) => {
+const deleteDataTransactions = (historyId) => {
   return new Promise((resolve, reject) => {
-    const sqlQuery = `DELETE FROM transactions WHERE id = ${id}`;
+    const sqlQuery = `DELETE FROM transactions WHERE id = ${historyId}`;
     db.query(sqlQuery, (err, result) => {
       if (err)
         return reject({
