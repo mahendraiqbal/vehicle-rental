@@ -76,7 +76,7 @@ LIMIT 4;`;
 const getDataTransactionsById = (id) => {
   console.log('cek id', id);
     return new Promise((resolve, reject) => {
-        const sqlQuery = `select transactions.payment_methods AS methods, transactions.return_date AS back, users.id AS user_id, vehicles.name AS Name_Vehicle, vehicles.price AS Vehicle_Price
+        const sqlQuery = `select transactions.payment_methods AS methods, transactions.return_date AS back, transactions.id AS id, users.id AS user_id, vehicles.name AS Name_Vehicle, vehicles.price AS Vehicle_Price
 from transactions
 inner join users ON transactions.user_id = users.id
 inner join vehicles ON transactions.vehicle_id = vehicles.id
